@@ -33,9 +33,11 @@ class Seo_lite {
         $friendly_segments = ($this->get_param('friendly_segments') == 'yes' || $this->get_param('friendly_segments') == 'y');
         $ignore_last_segments = $this->get_param('ignore_last_segments', FALSE);
         $category_url_title = $this->get_param('category_url_title');
-
         $canonical_url = $this->get_canonical_url($ignore_last_segments);
-
+        
+        // Open Graph
+        $default_og_description = $this->get_param('default_og_description');
+		
         if($use_last_segment)
         {
             $url_title = $this->get_url_title_from_segment($ignore_last_segments);
@@ -45,7 +47,7 @@ class Seo_lite {
 
         if($category_url_title)
         {
-            $this->EE->db->select('cat_name, cat_description, default_keywords, default_description, default_title_postfix, template')->from('categories')->where(array('cat_url_title' => $category_url_title, 'categories.site_id' => $site_id));
+            $this->EE->db->select('cat_name, cat_description, default_keywords, default_description, default_title_postfix, template, default_og_description')->from('categories')->where(array('cat_url_title' => $category_url_title, 'categories.site_id' => $site_id));
             $this->EE->db->join('seolite_config', 'seolite_config.site_id = categories.site_id');
             $q = $this->EE->db->get();
             if($q->num_rows() > 0)
@@ -56,6 +58,8 @@ class Seo_lite {
                     $tag_prefix.'title' => htmlspecialchars($this->get_preferred_value($seolite_entry->cat_name, $default_title), ENT_QUOTES), // use SEO title over original if it exists, then original, then default_title from parameter
                     $tag_prefix.'meta_keywords' => htmlspecialchars($this->get_preferred_value($seolite_entry->default_keywords, $default_keywords), ENT_QUOTES),
                     $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($seolite_entry->cat_description, $seolite_entry->default_description, $default_description), ENT_QUOTES),
+                    // Open Graph
+                    $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($seolite_entry->og_description, $seolite_entry->default_og_description, $default_og_description), ENT_QUOTES),
                 );
 
                 $got_values = TRUE;
@@ -84,7 +88,7 @@ class Seo_lite {
                 }
             }
 
-            $this->EE->db->select('channel_titles.entry_id, channel_titles.title as original_title, url_title, seolite_content.title as seo_title, default_keywords, default_description, default_title_postfix, keywords, description, seolite_config.template');
+            $this->EE->db->select('channel_titles.entry_id, channel_titles.title as original_title, url_title, seolite_content.title as seo_title, default_keywords, default_description, default_title_postfix, keywords, description, seolite_config.template, default_og_description, og_description');
             $this->EE->db->from('channel_titles');
             $where = array('channel_titles.site_id' => $site_id);
             if($url_title)
@@ -109,6 +113,8 @@ class Seo_lite {
                     $tag_prefix.'title' => htmlspecialchars($this->get_preferred_value($seolite_entry->seo_title, $seolite_entry->original_title, $default_title), ENT_QUOTES), // use SEO title over original if it exists, then original, then default_title from parameter
                     $tag_prefix.'meta_keywords' => htmlspecialchars($this->get_preferred_value($seolite_entry->keywords, $seolite_entry->default_keywords, $default_keywords), ENT_QUOTES),
                     $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($seolite_entry->description, $seolite_entry->default_description, $default_description), ENT_QUOTES),
+                    // Open Graph
+                    $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($seolite_entry->og_description, $seolite_entry->default_og_description, $default_og_description), ENT_QUOTES),
                 );
                 $got_values = TRUE;
             }
@@ -124,6 +130,8 @@ class Seo_lite {
                 $tag_prefix.'title' => htmlspecialchars($default_title, ENT_QUOTES),
                 $tag_prefix.'meta_keywords' => htmlspecialchars($this->get_preferred_value($default_keywords ,$seolite_entry->default_keywords), ENT_QUOTES) ,
                 $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($default_description, $seolite_entry->default_description), ENT_QUOTES),
+                // Open Graph
+                $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($default_description, $seolite_entry->default_og_description), ENT_QUOTES),
             );
         }
 

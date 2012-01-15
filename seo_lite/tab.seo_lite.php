@@ -26,7 +26,7 @@ class Seo_lite_tab {
     {
         $settings = array();
 
-        $title = $keywords = $description = '';
+        $title = $keywords = $description = $og_description = '';
         if($entry_id)
         {
             $q = $this->EE->db->get_where('seolite_content', array('entry_id' => $entry_id));
@@ -35,6 +35,8 @@ class Seo_lite_tab {
                 $title = $q->row('title');
                 $keywords = $q->row('keywords');
                 $description = $q->row('description');
+                //Open Graph
+                $og_description = $q->row('og_description');
             }
         }
 
@@ -86,6 +88,25 @@ class Seo_lite_tab {
            'field_ta_rows'		   => 5,
 
        );
+       
+       // Open Graph
+       
+       $settings[] = array(
+           'field_id' => 'seo_lite_og_description',
+           'field_label' => lang('og_description'),
+           'field_required' => 'n',
+           'field_data' => $og_description,
+           'field_list_items' => '',
+           'field_fmt' => '',
+           'field_instructions' => lang('og_description_instructions'),
+           'field_show_fmt' => 'n',
+           'field_fmt_options' => array(),
+           'field_pre_populate' => 'n',
+           'field_text_direction' => 'ltr',
+           'field_type' => 'textarea',
+           'field_ta_rows'		   => 5,
+
+       );
 
         return $settings;
     }
@@ -113,6 +134,8 @@ class Seo_lite_tab {
             'title' => $seo_lite_data['seo_lite_title'],
             'keywords' => $seo_lite_data['seo_lite_keywords'],
             'description' => $seo_lite_data['seo_lite_description'],
+            // Open Graph
+            'og_description' => $seo_lite_data['seo_lite_og_description'],
         );
 
         $q = $this->EE->db->get_where('seolite_content', array('site_id' => $site_id, 'entry_id' => $entry_id));

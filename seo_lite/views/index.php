@@ -82,11 +82,19 @@
 
 
         $this->table->add_row(array(
-            lang('default_title_postfix', 'seolite_default_title_postfix'),
-            form_error('seolite_default_title_postfix').
-            form_input('seolite_default_title_postfix', set_value('seolite_default_title_postfix', $default_title_postfix), 'id="seolite_default_title_postfix"')
+	            lang('default_title_postfix', 'seolite_default_title_postfix'),
+	            form_error('seolite_default_title_postfix').
+	            form_input('seolite_default_title_postfix', set_value('seolite_default_title_postfix', $default_title_postfix), 'id="seolite_default_title_postfix"')
             )
         );
+        
+		$this->table->add_row(array(
+		        lang('default_og_description', 'seolite_default_og_description'),
+		        form_error('seolite_default_og_description').
+		        form_textarea('seolite_default_og_description', set_value('seolite_default_og_description', $default_og_description), 'id="seolite_default_og_description"')
+            )
+        );
+
 
 		echo $this->table->generate();
 	?>

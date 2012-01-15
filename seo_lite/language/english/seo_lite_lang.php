@@ -6,6 +6,7 @@ $lang['seo_lite_module_description'] = "One calorie SEO module, no sugar added!"
 $lang['seo_lite_welcome'] = "Welcome to SEO Lite";
 $lang['default_keywords'] = "Default page keywords";
 $lang['default_description'] = "Default page description";
+$lang['default_og_description'] = "Default Open Graph description. Leave blank if desired.";
 $lang['current_value'] = 'Current Value';
 $lang['settings_saved'] = 'SEO Lite settings saved';
 $lang['seotitle'] = 'SEO Title';
@@ -16,7 +17,8 @@ $lang['seodescription'] = 'SEO Meta Description';
 $lang['description_instructions'] = 'Write a short sentence or two that sums up the entry (many search engines will display this in the search results)';
 $lang['default_title_postfix'] = 'Default title postfix';
 $lang['default_title_postfix_description'] = "Whatever you specify here will be appended after the {title}, unless overridden by the <em>title_postfix</em> parameter in the tag.";
-
+$lang['og_description'] = 'Open Graph Description';
+$lang['og_description_instructions'] = 'Something something';
 
 $lang['docs'] = 'Documentation';
 $lang['settings'] = 'Settings';

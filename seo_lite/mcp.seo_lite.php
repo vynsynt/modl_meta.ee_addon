@@ -52,7 +52,8 @@ class Seo_lite_mcp
         $vars['default_description'] = $config->row('default_description');
         $vars['default_keywords'] = $config->row('default_keywords');
         $vars['default_title_postfix'] = $config->row('default_title_postfix');
-
+		$vars['default_og_description'] = $config->row('default_og_description');
+		
 		return $this->content_wrapper('index', 'seo_lite_welcome', $vars);
 	}
 	
@@ -62,7 +63,8 @@ class Seo_lite_mcp
         $default_keywords = $this->EE->input->post('seolite_default_keywords');
         $default_description = $this->EE->input->post('seolite_default_description');
         $default_title_postfix = $this->EE->input->post('seolite_default_title_postfix');
-
+		$default_og_description = $this->EE->input->post('seolite_default_og_description');
+		
         $site_id = $this->EE->config->item('site_id');
         $config = $this->EE->db->get_where('seolite_config', array('site_id' => $site_id));
 
@@ -71,6 +73,7 @@ class Seo_lite_mcp
                 'default_keywords' => $default_keywords,
                 'default_description' => $default_description,
                 'default_title_postfix' => $default_title_postfix,
+                'default_og_description' => $default_og_description,
             );
 
         if($config->num_rows() == 0)
