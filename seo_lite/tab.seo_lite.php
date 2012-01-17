@@ -26,7 +26,7 @@ class Seo_lite_tab {
     {
         $settings = array();
 
-        $title = $keywords = $description = $og_description = '';
+        $title = $keywords = $description = $og_description = $og_image = $og_type = '';
         if($entry_id)
         {
             $q = $this->EE->db->get_where('seolite_content', array('entry_id' => $entry_id));
@@ -36,7 +36,9 @@ class Seo_lite_tab {
                 $keywords = $q->row('keywords');
                 $description = $q->row('description');
                 //Open Graph
+                $og_type = $q->row('og_type');
                 $og_description = $q->row('og_description');
+                $og_image = $q->row('og_image');
             }
         }
 
@@ -91,6 +93,35 @@ class Seo_lite_tab {
        
        // Open Graph
        
+        $settings[] = array(
+           'field_id' => 'seo_lite_og_type',
+           'field_label' => lang('og_type'),
+           'field_required' => 'n',
+           'field_data' => $og_type,
+           'field_list_items' => array(
+           		'' => '-- Select Type --',
+           		'article' => 'Article',
+           		'blog' => 'Blog',
+           		'website' => 'Website',
+           		'activity' => 'Activity',
+           		'sport' => 'Sport',
+           		'bar' => 'Bar',
+				'company' => 'Company',
+				'cafe' => 'Cafe',
+				'hotel' => 'Hotel',
+				'restaurant' => 'Restaurant'
+           ),
+           'field_fmt' => '',
+           'field_instructions' => lang('og_type_instructions'),
+           'field_show_fmt' => 'n',
+           'field_fmt_options' => array(),
+           'field_pre_populate' => 'n',
+           'field_text_direction' => 'ltr',
+           'field_type' => 'select',
+
+       );
+
+       
        $settings[] = array(
            'field_id' => 'seo_lite_og_description',
            'field_label' => lang('og_description'),
@@ -105,6 +136,22 @@ class Seo_lite_tab {
            'field_text_direction' => 'ltr',
            'field_type' => 'textarea',
            'field_ta_rows'		   => 5,
+
+       );
+       
+        $settings[] = array(
+           'field_id' => 'seo_lite_og_image',
+           'field_label' => lang('og_image'),
+           'field_required' => 'n',
+           'field_data' => $og_image,
+           'field_list_items' => '',
+           'field_fmt' => '',
+           'field_instructions' => lang('og_image_instructions'),
+           'field_show_fmt' => 'n',
+           'field_fmt_options' => array(),
+           'field_pre_populate' => 'n',
+           'field_text_direction' => 'ltr',
+           'field_type' => 'file',
 
        );
 
@@ -135,7 +182,9 @@ class Seo_lite_tab {
             'keywords' => $seo_lite_data['seo_lite_keywords'],
             'description' => $seo_lite_data['seo_lite_description'],
             // Open Graph
+            'og_type' => $seo_lite_data['seo_lite_og_type'],
             'og_description' => $seo_lite_data['seo_lite_og_description'],
+            'og_title' => $seo_lite_data['seo_lite_og_title'],
         );
 
         $q = $this->EE->db->get_where('seolite_content', array('site_id' => $site_id, 'entry_id' => $entry_id));
