@@ -1,9 +1,22 @@
-﻿MODL Meta is an ExpressionEngine Add-on allowing for default site-wide meta, template meta overrides, and per entry meta through custom MODL Meta fields.  In addition to basic SEO meta data, MODL Meta includes basic Open Graph tags to work with Social Network shares such as Facebook Likes and 
+﻿h1. MODL Social Widgets
 
-SEO Lite is a lightweight addon for ExpressionEngine which will add a tab where the user can specify meta keywords, descriptions and alternatively override the title with a SEO optimized version.
+h2. Overview
 
+An ExpressionEngine 2.x module MODL Meta allows for default site-wide meta, template meta overrides, and per entry meta through custom MODL Meta fields. In addition to basic SEO meta data, MODL Meta includes basic Open Graph tags to work with Social Network shares such as Facebook Likes and 
 
-h2. Update from SEO Lite
+*Continuing Development By:* Minds On Design Lab - http://mod-lab.com
+*Original Development SEO Lite by "bjornbjorn":https://github.com/bjornbjorn
+*Version:* 1.0
+*Copyright:* Modifications Copyright &copy; 2011 Minds On Design Lab
+*License:* "http://creativecommons.org/licenses/by/3.0/":http://creativecommons.org/licenses/by/3.0/
+
+_This add-on is based on the SEO Lite add-on. Please refer the "About SEO Lite & Credit" section below for details._
+
+h2. Installation
+
+Install in system/expressionengine/third_party/modl_meta
+
+h3. Updating from SEO Lite
 
 To update a site using SEO Lite to MODL Meta, you need to update the version of SEO Lite to between 1.2.4 - 1.3.4. (NOTE TO SELF - Add a tag or branch link to this version so we have a copy) Then follow the following steps:
 
@@ -13,6 +26,11 @@ To update a site using SEO Lite to MODL Meta, you need to update the version of 
 * Install MODL Meta. Install will update table names and field names as needed maintaining all previous data at time of backup.
 * Update default config.
 * Update template tags.
+
+h2. Usage
+
+_Coming Soon_
+
 
 h2. About SEO Lite & Credit
 
