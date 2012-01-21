@@ -1,19 +1,18 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * One calorie SEO module, no sugar added!
  *
- * @package		Seo_lite
+ * @package		MODL Meta - Based on modl_meta
  * @subpackage	ThirdParty
  * @category	Modules
- * @author		bjorn
- * @link		http://ee.bybjorn.com/seo_lite
+ * @author		Minds On Design Lab - Extended from SEO Lite - bjorn
+ * @link		https://github.com/Minds-On-Design-Lab/modl_meta.ee_addon - Extended from SEO Lite http://ee.bybjorn.com/modl_meta
  */
-class Seo_lite {
+class Modl_meta {
 
 	var $return_data;
 	
-	public function Seo_lite() // backwards compatible __construct() won't work
+	public function Modl_meta() // backwards compatible __construct() won't work
 	{		
         $this->EE =& get_instance(); // Make a local reference to the ExpressionEngine super object
 
@@ -35,7 +34,7 @@ class Seo_lite {
         $category_url_title = $this->get_param('category_url_title');
         $canonical_url = $this->get_canonical_url($ignore_last_segments);
         
-        // Open Graph
+        // MODL Meta Open Graph
         $default_og_description = $this->get_param('default_og_description');
 		
         if($use_last_segment)
@@ -48,18 +47,19 @@ class Seo_lite {
         if($category_url_title)
         {
             $this->EE->db->select('cat_name, cat_description, default_keywords, default_description, default_title_postfix, template, default_og_description')->from('categories')->where(array('cat_url_title' => $category_url_title, 'categories.site_id' => $site_id));
-            $this->EE->db->join('seolite_config', 'seolite_config.site_id = categories.site_id');
+            $this->EE->db->join('modl_meta_config', 'modl_meta_config.site_id = categories.site_id');
             $q = $this->EE->db->get();
             if($q->num_rows() > 0)
             {
-                $seolite_entry = $q->row();
+                $modl_meta_entry = $q->row();
 
                 $vars = array(
-                    $tag_prefix.'title' => htmlspecialchars($this->get_preferred_value($seolite_entry->cat_name, $default_title), ENT_QUOTES), // use SEO title over original if it exists, then original, then default_title from parameter
-                    $tag_prefix.'meta_keywords' => htmlspecialchars($this->get_preferred_value($seolite_entry->default_keywords, $default_keywords), ENT_QUOTES),
-                    $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($seolite_entry->cat_description, $seolite_entry->default_description, $default_description), ENT_QUOTES),
-                    // Open Graph
-                    $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($seolite_entry->og_description, $seolite_entry->default_og_description, $default_og_description), ENT_QUOTES),
+                    $tag_prefix.'title' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->cat_name, $default_title), ENT_QUOTES), // use SEO title over original if it exists, then original, then default_title from parameter
+                    $tag_prefix.'meta_keywords' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->default_keywords, $default_keywords), ENT_QUOTES),
+                    $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->cat_description, $modl_meta_entry->default_description, $default_description), ENT_QUOTES),
+                    
+                    // MODL Meta Open Graph
+                    $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->og_description, $modl_meta_entry->default_og_description, $default_og_description), ENT_QUOTES),
                 );
 
                 $got_values = TRUE;
@@ -88,7 +88,7 @@ class Seo_lite {
                 }
             }
 
-            $this->EE->db->select('channel_titles.entry_id, channel_titles.title as original_title, url_title, seolite_content.title as seo_title, default_keywords, default_description, default_title_postfix, keywords, description, seolite_config.template, default_og_description, og_description');
+            $this->EE->db->select('channel_titles.entry_id, channel_titles.title as original_title, url_title, modl_meta_content.title as seo_title, default_keywords, default_description, default_title_postfix, keywords, description, modl_meta_config.template, default_og_description, og_description');
             $this->EE->db->from('channel_titles');
             $where = array('channel_titles.site_id' => $site_id);
             if($url_title)
@@ -100,21 +100,21 @@ class Seo_lite {
                 $where['channel_titles.entry_id'] = $entry_id;
             }
             $this->EE->db->where($where);
-            $this->EE->db->join('seolite_config', 'seolite_config.site_id = channel_titles.site_id');
-            $this->EE->db->join('seolite_content', 'seolite_content.entry_id = channel_titles.entry_id', 'left');
+            $this->EE->db->join('modl_meta_config', 'modl_meta_config.site_id = channel_titles.site_id');
+            $this->EE->db->join('modl_meta_content', 'modl_meta_content.entry_id = channel_titles.entry_id', 'left');
 
             $q = $this->EE->db->get();
 
             if($q->num_rows() > 0)
             {
-                $seolite_entry = $q->row();
+                $modl_meta_entry = $q->row();
 
                 $vars = array(
-                    $tag_prefix.'title' => htmlspecialchars($this->get_preferred_value($seolite_entry->seo_title, $seolite_entry->original_title, $default_title), ENT_QUOTES), // use SEO title over original if it exists, then original, then default_title from parameter
-                    $tag_prefix.'meta_keywords' => htmlspecialchars($this->get_preferred_value($seolite_entry->keywords, $seolite_entry->default_keywords, $default_keywords), ENT_QUOTES),
-                    $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($seolite_entry->description, $seolite_entry->default_description, $default_description), ENT_QUOTES),
-                    // Open Graph
-                    $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($seolite_entry->og_description, $seolite_entry->default_og_description, $default_og_description), ENT_QUOTES),
+                    $tag_prefix.'title' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->seo_title, $modl_meta_entry->original_title, $default_title), ENT_QUOTES), // use SEO title over original if it exists, then original, then default_title from parameter
+                    $tag_prefix.'meta_keywords' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->keywords, $modl_meta_entry->default_keywords, $default_keywords), ENT_QUOTES),
+                    $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->description, $modl_meta_entry->default_description, $default_description), ENT_QUOTES),
+                    // MODL Meta Open Graph
+                    $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->og_description, $modl_meta_entry->default_og_description, $default_og_description), ENT_QUOTES),
                 );
                 $got_values = TRUE;
             }
@@ -123,21 +123,21 @@ class Seo_lite {
         if(!$got_values)
         {           
             // no specific entry lookup, but we still want the config
-            $q = $this->EE->db->get_where('seolite_config', array('seolite_config.site_id' => $site_id));
-            $seolite_entry = $q->row();
+            $q = $this->EE->db->get_where('modl_meta_config', array('modl_meta_config.site_id' => $site_id));
+            $modl_meta_entry = $q->row();
 
             $vars = array(
                 $tag_prefix.'title' => htmlspecialchars($default_title, ENT_QUOTES),
-                $tag_prefix.'meta_keywords' => htmlspecialchars($this->get_preferred_value($default_keywords ,$seolite_entry->default_keywords), ENT_QUOTES) ,
-                $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($default_description, $seolite_entry->default_description), ENT_QUOTES),
-                // Open Graph
-                $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($default_description, $seolite_entry->default_og_description), ENT_QUOTES),
+                $tag_prefix.'meta_keywords' => htmlspecialchars($this->get_preferred_value($default_keywords ,$modl_meta_entry->default_keywords), ENT_QUOTES) ,
+                $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($default_description, $modl_meta_entry->default_description), ENT_QUOTES),
+                // MODL Meta Open Graph
+                $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($default_description, $modl_meta_entry->default_og_description), ENT_QUOTES),
             );
         }
 
         if($vars[$tag_prefix.'title'] != '')
         {
-            $title_postfix .= $seolite_entry->default_title_postfix;
+            $title_postfix .= $modl_meta_entry->default_title_postfix;
         }
 
         $vars[$tag_prefix.'title'] = $title_prefix.$vars[$tag_prefix.'title'].$title_postfix.($title_separator?' '.$title_separator.' ':'');
@@ -146,7 +146,7 @@ class Seo_lite {
         $tagdata = $this->EE->TMPL->tagdata;
         if( empty($tagdata))
         {
-           $tagdata = $seolite_entry->template;
+           $tagdata = $modl_meta_entry->template;
         }
 
         // segment variables are not parsed yet, so we do it ourselves if they are in use in the seo lite template
@@ -324,9 +324,9 @@ class Seo_lite {
 	 */
 	private function error_log($msg)
 	{		
-		$this->EE->TMPL->log_item("seo_lite ERROR: ".$msg);		
+		$this->EE->TMPL->log_item("modl_meta ERROR: ".$msg);		
 	}		
 }
 
-/* End of file mod.seo_lite.php */ 
-/* Location: ./system/expressionengine/third_party/seo_lite/mod.seo_lite.php */
+/* End of file mod.modl_meta.php */ 
+/* Location: ./system/expressionengine/third_party/modl_meta/mod.modl_meta.php */

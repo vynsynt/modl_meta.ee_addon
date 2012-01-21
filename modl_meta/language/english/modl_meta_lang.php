@@ -1,14 +1,14 @@
 <?php
 
-$lang['seo_lite'] = 'SEO Lite';
-$lang['seo_lite_module_name'] = "SEO Lite";
-$lang['seo_lite_module_description'] = "One calorie SEO module, no sugar added!";
-$lang['seo_lite_welcome'] = "Welcome to SEO Lite";
+$lang['modl_meta'] = 'MODL Meta';
+$lang['modl_meta_module_name'] = "MODL Meta";
+$lang['modl_meta_module_description'] = "SEO Meta and Social Meta";
+$lang['modl_meta_welcome'] = "Welcome to MODL Meta";
 $lang['default_keywords'] = "Default page keywords";
 $lang['default_description'] = "Default page description";
 $lang['default_og_description'] = "Default Open Graph description. Leave blank if desired.";
 $lang['current_value'] = 'Current Value';
-$lang['settings_saved'] = 'SEO Lite settings saved';
+$lang['settings_saved'] = 'MODL Meta settings saved';
 $lang['seotitle'] = 'SEO Title';
 $lang['title_instructions'] = "Optional, if you do not specify anything the entry title will be used. Remember that most search-engines use a maximum of 60 characters for the title.";
 $lang['seokeywords'] = 'SEO Meta Keywords';

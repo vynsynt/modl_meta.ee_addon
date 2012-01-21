@@ -1,24 +1,23 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * One calorie SEO module, no sugar added!
  *
- * @package		Seo_lite
+ * @package		MODL Meta - Based on Seo_lite
  * @subpackage	ThirdParty
  * @category	Modules
- * @author		bjorn
- * @link		http://ee.bybjorn.com/seo_lite
+ * @author		Minds On Design Lab - Extended from SEO Lite - bjorn
+ * @link		https://github.com/Minds-On-Design-Lab/modl_meta.ee_addon - Extended from SEO Lite http://ee.bybjorn.com/seo_lite
  */
 
-class Seo_lite_tab {
+class Modl_meta_tab {
 
     public function __construct()
     {
         $this->EE =& get_instance();
-        $this->EE->lang->loadfile('seo_lite');
+        $this->EE->lang->loadfile('modl_meta');
 
-        if($this->EE->config->item('seo_lite_tab_title')) {
-            $this->EE->lang->language['seo_lite'] = $this->EE->config->item('seo_lite_tab_title');
+        if($this->EE->config->item('modl_meta_tab_title')) {
+            $this->EE->lang->language['modl_meta'] = $this->EE->config->item('modl_meta_tab_title');
         }
     }
 
@@ -29,7 +28,7 @@ class Seo_lite_tab {
         $title = $keywords = $description = $og_description = $og_image = $og_type = '';
         if($entry_id)
         {
-            $q = $this->EE->db->get_where('seolite_content', array('entry_id' => $entry_id));
+            $q = $this->EE->db->get_where('modl_meta_content', array('entry_id' => $entry_id));
             if($q->num_rows())
             {
                 $title = $q->row('title');
@@ -43,7 +42,7 @@ class Seo_lite_tab {
         }
 
         $settings[] = array(
-           'field_id' => 'seo_lite_title',
+           'field_id' => 'modl_meta_title',
            'field_label' => lang('seotitle'),
            'field_required' => 'n',
            'field_data' => $title,
@@ -59,7 +58,7 @@ class Seo_lite_tab {
        );
 
         $settings[] = array(
-           'field_id' => 'seo_lite_keywords',
+           'field_id' => 'modl_meta_keywords',
            'field_label' => lang('seokeywords'),
            'field_required' => 'n',
            'field_data' => $keywords,
@@ -75,7 +74,7 @@ class Seo_lite_tab {
        );
 
         $settings[] = array(
-           'field_id' => 'seo_lite_description',
+           'field_id' => 'modl_meta_description',
            'field_label' => lang('seodescription'),
            'field_required' => 'n',
            'field_data' => $description,
@@ -94,7 +93,7 @@ class Seo_lite_tab {
        // Open Graph
        
         $settings[] = array(
-           'field_id' => 'seo_lite_og_type',
+           'field_id' => 'modl_meta_og_type',
            'field_label' => lang('og_type'),
            'field_required' => 'n',
            'field_data' => $og_type,
@@ -123,7 +122,7 @@ class Seo_lite_tab {
 
        
        $settings[] = array(
-           'field_id' => 'seo_lite_og_description',
+           'field_id' => 'modl_meta_og_description',
            'field_label' => lang('og_description'),
            'field_required' => 'n',
            'field_data' => $og_description,
@@ -140,7 +139,7 @@ class Seo_lite_tab {
        );
        
         $settings[] = array(
-           'field_id' => 'seo_lite_og_image',
+           'field_id' => 'modl_meta_og_image',
            'field_label' => lang('og_image'),
            'field_required' => 'n',
            'field_data' => $og_image,
@@ -171,32 +170,32 @@ class Seo_lite_tab {
      */
     function publish_data_db($params)
     {
-        $seo_lite_data = $params['mod_data'];
+        $modl_meta_data = $params['mod_data'];
         $site_id = $params['meta']['site_id'];
         $entry_id = $params['entry_id'];
 
         $content = array(
             'site_id' => $site_id,
             'entry_id' => $entry_id,
-            'title' => $seo_lite_data['seo_lite_title'],
-            'keywords' => $seo_lite_data['seo_lite_keywords'],
-            'description' => $seo_lite_data['seo_lite_description'],
+            'title' => $modl_meta_data['modl_meta_title'],
+            'keywords' => $modl_meta_data['modl_meta_keywords'],
+            'description' => $modl_meta_data['modl_meta_description'],
             // Open Graph
-            'og_type' => $seo_lite_data['seo_lite_og_type'],
-            'og_description' => $seo_lite_data['seo_lite_og_description'],
-            'og_title' => $seo_lite_data['seo_lite_og_title'],
+            'og_type' => $modl_meta_data['modl_meta_og_type'],
+            'og_description' => $modl_meta_data['modl_meta_og_description'],
+            'og_image' => $modl_meta_data['modl_meta_og_image'],
         );
 
-        $q = $this->EE->db->get_where('seolite_content', array('site_id' => $site_id, 'entry_id' => $entry_id));
+        $q = $this->EE->db->get_where('modl_meta_content', array('site_id' => $site_id, 'entry_id' => $entry_id));
         if($q->num_rows())
         {
             $this->EE->db->where('entry_id', $entry_id);
             $this->EE->db->where('site_id', $site_id);
-            $this->EE->db->update('seolite_content', $content);
+            $this->EE->db->update('modl_meta_content', $content);
         }
         else
         {
-            $this->EE->db->insert('seolite_content', $content);
+            $this->EE->db->insert('modl_meta_content', $content);
         }
     }
 
@@ -211,7 +210,7 @@ class Seo_lite_tab {
         foreach($params['entry_ids'] as $i => $entry_id)
         {
             $this->EE->db->where('entry_id', $entry_id);
-            $this->EE->db->delete('seolite_content');
+            $this->EE->db->delete('modl_meta_content');
         }
     }
 

@@ -1,21 +1,21 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * One calorie SEO module, no sugar added!
  *
- * @package		Seo_lite
+ * @package		MODL Meta - Based on modl_meta
  * @subpackage	ThirdParty
  * @category	Modules
- * @author		bjorn
- * @link		http://ee.bybjorn.com/
+ * @author		Minds On Design Lab - Extended from SEO Lite - bjorn
+ * @link		https://github.com/Minds-On-Design-Lab/modl_meta.ee_addon - Extended from SEO Lite http://ee.bybjorn.com/seo_lite
  */
-class Seo_lite_mcp 
+ 
+class Modl_meta_mcp 
 {
 	var $base;			// the base url for this module			
 	var $form_base;		// base url for forms
-	var $module_name = "seo_lite";	
+	var $module_name = "modl_meta";	
 
-	function Seo_lite_mcp( $switch = TRUE )
+	function Modl_meta_mcp( $switch = TRUE )
 	{
 		// Make a local reference to the ExpressionEngine super object
 		$this->EE =& get_instance(); 
@@ -25,7 +25,7 @@ class Seo_lite_mcp
         // uncomment this if you want navigation buttons at the top
 		$this->EE->cp->set_right_nav(array(
 				'settings'			=> $this->base,
-				'docs'	=> 'http://ee.bybjorn.com/seo_lite',
+				'docs'	=> 'https://github.com/Minds-On-Design-Lab/modl_meta.ee_addon',
 			));
 
 
@@ -33,7 +33,7 @@ class Seo_lite_mcp
 		$this->EE->load->library('table');
 		$this->EE->load->library('javascript');
 		$this->EE->load->helper('form');
-		$this->EE->lang->loadfile('seo_lite');
+		$this->EE->lang->loadfile('modl_meta');
 	}
 
 	function index() 
@@ -41,50 +41,55 @@ class Seo_lite_mcp
 		$vars = array();
 
         $site_id = $this->EE->config->item('site_id');
-        $config = $this->EE->db->get_where('seolite_config', array('site_id' => $site_id));
+        $config = $this->EE->db->get_where('modl_meta_config', array('site_id' => $site_id));
 
         if($config->num_rows() == 0) // we did not find any config for this site id, so just load any other
         {
-            $config = $this->EE->db->get_where('seolite_config');
+            $config = $this->EE->db->get_where('modl_meta_config');
         }
 
 		$vars['template'] = $config->row('template');
         $vars['default_description'] = $config->row('default_description');
         $vars['default_keywords'] = $config->row('default_keywords');
         $vars['default_title_postfix'] = $config->row('default_title_postfix');
+		
+		// MODL Meta
 		$vars['default_og_description'] = $config->row('default_og_description');
 		
-		return $this->content_wrapper('index', 'seo_lite_welcome', $vars);
+		return $this->content_wrapper('index', 'modl_meta_welcome', $vars);
 	}
 	
 	function save_settings()
 	{
-		$template = $this->EE->input->post('seolite_template');
-        $default_keywords = $this->EE->input->post('seolite_default_keywords');
-        $default_description = $this->EE->input->post('seolite_default_description');
-        $default_title_postfix = $this->EE->input->post('seolite_default_title_postfix');
-		$default_og_description = $this->EE->input->post('seolite_default_og_description');
+		$template = $this->EE->input->post('modl_meta_template');
+        $default_keywords = $this->EE->input->post('modl_meta_default_keywords');
+        $default_description = $this->EE->input->post('modl_meta_default_description');
+        $default_title_postfix = $this->EE->input->post('modl_meta_default_title_postfix');
+        
+        //MODL Meta
+		$default_og_description = $this->EE->input->post('modl_meta_default_og_description');
 		
         $site_id = $this->EE->config->item('site_id');
-        $config = $this->EE->db->get_where('seolite_config', array('site_id' => $site_id));
+        $config = $this->EE->db->get_where('modl_meta_config', array('site_id' => $site_id));
 
         $data_arr = array(
                 'template' => $template,
                 'default_keywords' => $default_keywords,
                 'default_description' => $default_description,
                 'default_title_postfix' => $default_title_postfix,
+                // MODL Meta
                 'default_og_description' => $default_og_description,
             );
 
         if($config->num_rows() == 0)
         {
             $data_arr['site_id'] = $site_id;
-            $this->EE->db->insert('seolite_config', $data_arr);
+            $this->EE->db->insert('modl_meta_config', $data_arr);
         }
         else
         {
             $this->EE->db->where('site_id', $site_id);
-            $this->EE->db->update('seolite_config', $data_arr);
+            $this->EE->db->update('modl_meta_config', $data_arr);
         }
 
 		$this->EE->session->set_flashdata('message_success', lang('settings_saved'));
@@ -98,12 +103,12 @@ class Seo_lite_mcp
 		$vars['_base'] = $this->base;
 		$vars['_form_base'] = $this->form_base;
 		$this->EE->cp->set_variable('cp_page_title', lang($lang_key));
-		$this->EE->cp->set_breadcrumb($this->base, lang('seo_lite_module_name'));
+		$this->EE->cp->set_breadcrumb($this->base, lang('modl_meta_module_name'));
 
 		return $this->EE->load->view('_wrapper', $vars, TRUE);
 	}
 	
 }
 
-/* End of file mcp.seo_lite.php */ 
-/* Location: ./system/expressionengine/third_party/seo_lite/mcp.seo_lite.php */ 
+/* End of file mcp.modl_meta.php */ 
+/* Location: ./system/expressionengine/third_party/modl_meta/mcp.modl_meta.php */ 
