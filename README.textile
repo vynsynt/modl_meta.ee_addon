@@ -2,10 +2,10 @@
 
 h2. Overview
 
-An ExpressionEngine 2.x module MODL Meta allows for default site-wide meta, template meta overrides, and per entry meta through custom MODL Meta fields. In addition to basic SEO meta data, MODL Meta includes basic Open Graph tags to work with Social Network shares such as Facebook Likes and 
+An ExpressionEngine 2.x module MODL Meta allows for default site-wide meta, template meta overrides, and per entry meta through custom MODL Meta fields. In addition to basic SEO meta data, MODL Meta includes basic Open Graph tags to work with Social Network shares such as Facebook Likes and Google +1.
 
 *Continuing Development By:* Minds On Design Lab - http://mod-lab.com
-*Original Development SEO Lite by "bjornbjorn":https://github.com/bjornbjorn
+*Original Development By:* SEO Lite - "bjornbjorn":https://github.com/bjornbjorn
 *Version:* 1.0
 *Copyright:* Modifications Copyright &copy; 2011 Minds On Design Lab
 *License:* "http://creativecommons.org/licenses/by/3.0/":http://creativecommons.org/licenses/by/3.0/
@@ -18,7 +18,7 @@ Install in system/expressionengine/third_party/modl_meta
 
 h3. Updating from SEO Lite
 
-To update a site using SEO Lite to MODL Meta, you need to update the version of SEO Lite to between 1.2.4 - 1.3.4. (NOTE TO SELF - Add a tag or branch link to this version so we have a copy) Then follow the following steps:
+To update a site using SEO Lite to MODL Meta, you need to update the version of SEO Lite to between 1.2.4 - 1.3.4. (NOTE TO SELF: Add a tag or branch link to this version so we have a copy) Then follow the following steps:
 
 * Backup the _exp_seolite_config_ and _exp_seolite_content_ tables.
 * Through CP, remove the SEO Lite Module
