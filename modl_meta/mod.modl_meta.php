@@ -65,7 +65,7 @@ class Modl_meta {
                     
                     // MODL Meta Open Graph
                     $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->default_og_description, $modl_meta_entry->default_og_description, $default_og_description), ENT_QUOTES),
-                    $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($modl_meta_entry->default_og_image, $modl_meta_entry->default_og_image, $default_og_image), array('parse_images' => TRUE, 'parse_images' => TRUE, 'text_format' => 'none')),
+                    $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($modl_meta_entry->default_og_image, $modl_meta_entry->default_og_image, $default_og_image), array('parse_images' => TRUE, 'text_format' => 'none', 'auto_links' => 'n')),
                 );
 
                 $got_values = TRUE;
@@ -121,7 +121,7 @@ class Modl_meta {
                     $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->description, $modl_meta_entry->default_description, $default_description), ENT_QUOTES),
                     // MODL Meta Open Graph
                     $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->og_description, $modl_meta_entry->default_og_description, $default_og_description), ENT_QUOTES),
-                    $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($modl_meta_entry->og_image, $modl_meta_entry->default_og_image, $default_og_image), array('parse_images' => TRUE, 'parse_images' => TRUE, 'text_format' => 'none')),
+                    $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($modl_meta_entry->og_image, $modl_meta_entry->default_og_image, $default_og_image), array('parse_images' => TRUE, 'text_format' => 'none', 'auto_links' => 'n')),
                 );
                 $got_values = TRUE;
             }
@@ -139,7 +139,7 @@ class Modl_meta {
                 $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($default_description, $modl_meta_entry->default_description), ENT_QUOTES),
                 // MODL Meta Open Graph
                 $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($default_og_description, $modl_meta_entry->default_og_description), ENT_QUOTES),
-                $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($default_og_image, $modl_meta_entry->default_og_image), array('parse_images' => TRUE, 'parse_images' => TRUE, 'text_format' => 'none')),
+                $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($default_og_image, $modl_meta_entry->default_og_image), array('parse_images' => TRUE, 'text_format' => 'none', 'auto_links' => 'n')),
             );
         }
 
