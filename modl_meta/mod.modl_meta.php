@@ -16,10 +16,12 @@ class Modl_meta {
 	public function Modl_meta() // backwards compatible __construct() won't work
 	{		
         $this->EE =& get_instance(); // Make a local reference to the ExpressionEngine super object
-
+		$this->EE->load->library('typography');
+		$this->EE->typography->initialize();
+			
         $entry_id = $this->get_param('entry_id');
         $site_id = $this->get_param('site_id', $this->EE->config->item('site_id'));
-
+	
         $use_last_segment = ($this->get_param('use_last_segment') == 'yes' || $this->get_param('use_last_segment') == 'y');
         $tag_prefix = $this->get_param('tag_prefix');
         $url_title = $this->get_param('url_title');
@@ -63,7 +65,7 @@ class Modl_meta {
                     
                     // MODL Meta Open Graph
                     $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->default_og_description, $modl_meta_entry->default_og_description, $default_og_description), ENT_QUOTES),
-                    $tag_prefix.'meta_og_image' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->default_og_image, $modl_meta_entry->default_og_image, $default_og_image), ENT_QUOTES),
+                    $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($modl_meta_entry->default_og_image, $modl_meta_entry->default_og_image, $default_og_image), array('parse_images' => TRUE, 'parse_images' => TRUE, 'text_format' => 'none')),
                 );
 
                 $got_values = TRUE;
@@ -119,7 +121,7 @@ class Modl_meta {
                     $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->description, $modl_meta_entry->default_description, $default_description), ENT_QUOTES),
                     // MODL Meta Open Graph
                     $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->og_description, $modl_meta_entry->default_og_description, $default_og_description), ENT_QUOTES),
-                    $tag_prefix.'meta_og_image' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->og_image, $modl_meta_entry->default_og_image, $default_og_image), ENT_QUOTES),
+                    $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($modl_meta_entry->og_image, $modl_meta_entry->default_og_image, $default_og_image), array('parse_images' => TRUE, 'parse_images' => TRUE, 'text_format' => 'none')),
                 );
                 $got_values = TRUE;
             }
@@ -137,7 +139,7 @@ class Modl_meta {
                 $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($default_description, $modl_meta_entry->default_description), ENT_QUOTES),
                 // MODL Meta Open Graph
                 $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($default_og_description, $modl_meta_entry->default_og_description), ENT_QUOTES),
-                $tag_prefix.'meta_og_iamge' => htmlspecialchars($this->get_preferred_value($default_og_image, $modl_meta_entry->default_og_image), ENT_QUOTES),
+                $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($default_og_image, $modl_meta_entry->default_og_image), array('parse_images' => TRUE, 'parse_images' => TRUE, 'text_format' => 'none')),
             );
         }
 
