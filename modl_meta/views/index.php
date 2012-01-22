@@ -94,6 +94,14 @@
 		        form_textarea('modl_meta_default_og_description', set_value('modl_meta_default_og_description', $default_og_description), 'id="modl_meta_default_og_description"')
             )
         );
+        
+        $this->table->add_row(array(
+	            lang('default_og_image', 'modl_meta_default_og_image'),
+	            form_error('modl_meta_default_og_image').
+	            form_input('modl_meta_default_og_image', set_value('modl_meta_default_og_image', $default_og_image), 'id="modl_meta_default_og_image"')
+            )
+        );
+
 
 
 		echo $this->table->generate();

@@ -8,6 +8,7 @@
  * @author		Minds On Design Lab - Extended from SEO Lite - bjorn
  * @link		https://github.com/Minds-On-Design-Lab/modl_meta.ee_addon - Extended from SEO Lite http://ee.bybjorn.com/modl_meta
  */
+
 class Modl_meta {
 
 	var $return_data;
@@ -36,6 +37,7 @@ class Modl_meta {
         
         // MODL Meta Open Graph
         $default_og_description = $this->get_param('default_og_description');
+        $default_og_image = $this->get_param('default_og_image');
 		
         if($use_last_segment)
         {
@@ -46,7 +48,8 @@ class Modl_meta {
 
         if($category_url_title)
         {
-            $this->EE->db->select('cat_name, cat_description, default_keywords, default_description, default_title_postfix, template, default_og_description')->from('categories')->where(array('cat_url_title' => $category_url_title, 'categories.site_id' => $site_id));
+            // Revised for MODL Meta
+            $this->EE->db->select('cat_name, cat_description, default_keywords, default_description, default_title_postfix, template, default_og_description, default_og_image')->from('categories')->where(array('cat_url_title' => $category_url_title, 'categories.site_id' => $site_id));
             $this->EE->db->join('modl_meta_config', 'modl_meta_config.site_id = categories.site_id');
             $q = $this->EE->db->get();
             if($q->num_rows() > 0)
@@ -59,7 +62,8 @@ class Modl_meta {
                     $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->cat_description, $modl_meta_entry->default_description, $default_description), ENT_QUOTES),
                     
                     // MODL Meta Open Graph
-                    $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->og_description, $modl_meta_entry->default_og_description, $default_og_description), ENT_QUOTES),
+                    $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->default_og_description, $modl_meta_entry->default_og_description, $default_og_description), ENT_QUOTES),
+                    $tag_prefix.'meta_og_image' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->default_og_image, $modl_meta_entry->default_og_image, $default_og_image), ENT_QUOTES),
                 );
 
                 $got_values = TRUE;
@@ -87,8 +91,8 @@ class Modl_meta {
                     }
                 }
             }
-
-            $this->EE->db->select('channel_titles.entry_id, channel_titles.title as original_title, url_title, modl_meta_content.title as seo_title, default_keywords, default_description, default_title_postfix, keywords, description, modl_meta_config.template, default_og_description, og_description');
+			// Revised for MODL Meta
+            $this->EE->db->select('channel_titles.entry_id, channel_titles.title as original_title, url_title, modl_meta_content.title as seo_title, default_keywords, default_description, default_title_postfix, keywords, description, modl_meta_config.template, default_og_description, og_description, default_og_image, og_image');
             $this->EE->db->from('channel_titles');
             $where = array('channel_titles.site_id' => $site_id);
             if($url_title)
@@ -115,6 +119,7 @@ class Modl_meta {
                     $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->description, $modl_meta_entry->default_description, $default_description), ENT_QUOTES),
                     // MODL Meta Open Graph
                     $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->og_description, $modl_meta_entry->default_og_description, $default_og_description), ENT_QUOTES),
+                    $tag_prefix.'meta_og_image' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->og_image, $modl_meta_entry->default_og_image, $default_og_image), ENT_QUOTES),
                 );
                 $got_values = TRUE;
             }
@@ -131,7 +136,8 @@ class Modl_meta {
                 $tag_prefix.'meta_keywords' => htmlspecialchars($this->get_preferred_value($default_keywords ,$modl_meta_entry->default_keywords), ENT_QUOTES) ,
                 $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($default_description, $modl_meta_entry->default_description), ENT_QUOTES),
                 // MODL Meta Open Graph
-                $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($default_description, $modl_meta_entry->default_og_description), ENT_QUOTES),
+                $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($default_og_description, $modl_meta_entry->default_og_description), ENT_QUOTES),
+                $tag_prefix.'meta_og_iamge' => htmlspecialchars($this->get_preferred_value($default_og_image, $modl_meta_entry->default_og_image), ENT_QUOTES),
             );
         }
 

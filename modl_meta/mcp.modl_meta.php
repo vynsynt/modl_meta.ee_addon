@@ -55,6 +55,7 @@ class Modl_meta_mcp
 		
 		// MODL Meta
 		$vars['default_og_description'] = $config->row('default_og_description');
+		$vars['default_og_image'] = $config->row('default_og_image');
 		
 		return $this->content_wrapper('index', 'modl_meta_welcome', $vars);
 	}
@@ -68,6 +69,7 @@ class Modl_meta_mcp
         
         //MODL Meta
 		$default_og_description = $this->EE->input->post('modl_meta_default_og_description');
+		$default_og_image = $this->EE->input->post('modl_meta_default_og_image');
 		
         $site_id = $this->EE->config->item('site_id');
         $config = $this->EE->db->get_where('modl_meta_config', array('site_id' => $site_id));
@@ -79,6 +81,7 @@ class Modl_meta_mcp
                 'default_title_postfix' => $default_title_postfix,
                 // MODL Meta
                 'default_og_description' => $default_og_description,
+                'default_og_image' => $default_og_image,
             );
 
         if($config->num_rows() == 0)

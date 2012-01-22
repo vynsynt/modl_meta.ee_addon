@@ -170,7 +170,8 @@ class Modl_meta_tab {
      */
     function publish_data_db($params)
     {
-        $modl_meta_data = $params['mod_data'];
+        $entry_data = $params['data']; // get full entry data posted
+        $modl_meta_data = $params['mod_data']; // get module related entry data posted
         $site_id = $params['meta']['site_id'];
         $entry_id = $params['entry_id'];
 
@@ -183,8 +184,9 @@ class Modl_meta_tab {
             // Open Graph
             'og_type' => $modl_meta_data['modl_meta_og_type'],
             'og_description' => $modl_meta_data['modl_meta_og_description'],
-            'og_image' => $modl_meta_data['modl_meta_og_image'],
+            'og_image' => '{filedir_'.$entry_data['modl_meta__modl_meta_og_image_directory'].'}'.$modl_meta_data['modl_meta_og_image'],
         );
+
 
         $q = $this->EE->db->get_where('modl_meta_content', array('site_id' => $site_id, 'entry_id' => $entry_id));
         if($q->num_rows())

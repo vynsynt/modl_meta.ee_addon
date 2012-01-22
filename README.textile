@@ -1,5 +1,6 @@
 ﻿h1. MODL Meta
 
+
 h2. Overview
 
 An ExpressionEngine 2.x module *MODL Meta* allows for default site-wide meta, template meta overrides, and per entry meta through custom MODL Meta fields. In addition to basic SEO metadata, MODL Meta includes basic Open Graph tags to work with Social Network shares such as Facebook Likes and Google +1.
@@ -35,11 +36,9 @@ h2. Change Log
 
 h3. 1.0
 
-h2. About SEO Lite & Credit
+h1. About SEO Lite & Credit
 
 As noted above, MODL Meta was forked from SEO Lite at v1.3.4 to explore adding Open Graph tags to the solution. Our approach was specific to our needs and was not in line with the direction of SEO Lite at the time. As such, we decided to build off of v1.3.4's core of functionality that we had grown to be great fans of, and evolve it and maintain it as MODL Meta. We would encourage any EE developers interested in a great, simple and powerful SEO solution to check out SEO Lite. The following are links shared out of respect and courtesy to SEO Lite.
-
-h3. links
 
 * "SEO Lite product page":http://www.addonbakery.com/expressionengine-addons/seolite.html
 * "SEO Lite - Full Documentation":http://www.addonbakery.com/docs/expressionengine/SEO_Lite_-_Installation_Usage.html
