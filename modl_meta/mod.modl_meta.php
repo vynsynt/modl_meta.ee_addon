@@ -5,7 +5,8 @@
  * @package		MODL Meta - Based on modl_meta
  * @subpackage	ThirdParty
  * @category	Modules
- * @author		Minds On Design Lab - Extended from SEO Lite - bjorn
+ * @author 		bjorn (original - SEO Lite 1.3.4)
+ * @author		Minds On Design Lab (Extended)
  * @link		https://github.com/Minds-On-Design-Lab/modl_meta.ee_addon - Extended from SEO Lite http://ee.bybjorn.com/modl_meta
  */
 
@@ -40,6 +41,7 @@ class Modl_meta {
         // MODL Meta Open Graph
         $default_og_description = $this->get_param('default_og_description');
         $default_og_image = $this->get_param('default_og_image');
+        $default_og_type = $this->get_param('default_og_type');
 		
         if($use_last_segment)
         {
@@ -66,6 +68,7 @@ class Modl_meta {
                     // MODL Meta Open Graph
                     $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->default_og_description, $modl_meta_entry->default_og_description, $default_og_description), ENT_QUOTES),
                     $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($modl_meta_entry->default_og_image, $modl_meta_entry->default_og_image, $default_og_image), array('parse_images' => TRUE, 'text_format' => 'none', 'auto_links' => 'n')),
+                    // Currently no OG Type for category URL case
                 );
 
                 $got_values = TRUE;
@@ -94,7 +97,7 @@ class Modl_meta {
                 }
             }
 			// Revised for MODL Meta
-            $this->EE->db->select('channel_titles.entry_id, channel_titles.title as original_title, url_title, modl_meta_content.title as seo_title, default_keywords, default_description, default_title_postfix, keywords, description, modl_meta_config.template, default_og_description, og_description, default_og_image, og_image');
+            $this->EE->db->select('channel_titles.entry_id, channel_titles.title as original_title, url_title, modl_meta_content.title as seo_title, default_keywords, default_description, default_title_postfix, keywords, description, modl_meta_config.template, default_og_description, og_description, default_og_image, og_image, og_type');
             $this->EE->db->from('channel_titles');
             $where = array('channel_titles.site_id' => $site_id);
             if($url_title)
@@ -122,6 +125,7 @@ class Modl_meta {
                     // MODL Meta Open Graph
                     $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->og_description, $modl_meta_entry->default_og_description, $default_og_description), ENT_QUOTES),
                     $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($modl_meta_entry->og_image, $modl_meta_entry->default_og_image, $default_og_image), array('parse_images' => TRUE, 'text_format' => 'none', 'auto_links' => 'n')),
+                    $tag_prefix.'meta_og_type' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->og_type, $default_og_type), ENT_QUOTES),
                 );
                 $got_values = TRUE;
             }
@@ -140,6 +144,7 @@ class Modl_meta {
                 // MODL Meta Open Graph
                 $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($default_og_description, $modl_meta_entry->default_og_description), ENT_QUOTES),
                 $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($default_og_image, $modl_meta_entry->default_og_image), array('parse_images' => TRUE, 'text_format' => 'none', 'auto_links' => 'n')),
+                $tag_prefix.'meta_og_type' => htmlspecialchars($this->get_preferred_value($default_og_type), ENT_QUOTES),
             );
         }
 

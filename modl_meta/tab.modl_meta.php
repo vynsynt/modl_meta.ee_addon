@@ -5,7 +5,8 @@
  * @package		MODL Meta - Based on Seo_lite
  * @subpackage	ThirdParty
  * @category	Modules
- * @author		Minds On Design Lab - Extended from SEO Lite - bjorn
+ * @author 		bjorn (original - SEO Lite 1.3.4)
+ * @author		Minds On Design Lab (Extended)
  * @link		https://github.com/Minds-On-Design-Lab/modl_meta.ee_addon - Extended from SEO Lite http://ee.bybjorn.com/seo_lite
  */
 
@@ -91,7 +92,6 @@ class Modl_meta_tab {
        );
        
        // Open Graph
-       
         $settings[] = array(
            'field_id' => 'modl_meta_og_type',
            'field_label' => lang('og_type'),
@@ -102,13 +102,9 @@ class Modl_meta_tab {
            		'article' => 'Article',
            		'blog' => 'Blog',
            		'website' => 'Website',
-           		'activity' => 'Activity',
-           		'sport' => 'Sport',
-           		'bar' => 'Bar',
-				'company' => 'Company',
-				'cafe' => 'Cafe',
-				'hotel' => 'Hotel',
-				'restaurant' => 'Restaurant'
+           		'profile' => 'Profile',
+           		'video' => 'Video',
+           		'music' => 'Music',
            ),
            'field_fmt' => '',
            'field_instructions' => lang('og_type_instructions'),
