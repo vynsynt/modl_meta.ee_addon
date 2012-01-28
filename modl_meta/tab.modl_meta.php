@@ -26,7 +26,7 @@ class Modl_meta_tab {
     {
         $settings = array();
 
-        $title = $keywords = $description = $og_description = $og_image = $og_type = '';
+        $title = $keywords = $description = $og_description = $og_image = $og_type = $og_title = '';
         if($entry_id)
         {
             $q = $this->EE->db->get_where('modl_meta_content', array('entry_id' => $entry_id));
@@ -35,7 +35,8 @@ class Modl_meta_tab {
                 $title = $q->row('title');
                 $keywords = $q->row('keywords');
                 $description = $q->row('description');
-                //Open Graph
+                //MODL Meta Open Graph
+                $og_title = $q->row('og_title');
                 $og_type = $q->row('og_type');
                 $og_description = $q->row('og_description');
                 $og_image = $q->row('og_image');
@@ -56,7 +57,7 @@ class Modl_meta_tab {
            'field_text_direction' => 'ltr',
            'field_type' => 'text',
            'field_maxl' => '1024'
-       );
+        );
 
         $settings[] = array(
            'field_id' => 'modl_meta_keywords',
@@ -72,7 +73,7 @@ class Modl_meta_tab {
            'field_text_direction' => 'ltr',
             'field_type' => 'textarea',
             'field_ta_rows'		   => 5,
-       );
+        );
 
         $settings[] = array(
            'field_id' => 'modl_meta_description',
@@ -91,7 +92,24 @@ class Modl_meta_tab {
 
        );
        
-       // Open Graph
+       // MODL Meta - Open Graph
+
+        $settings[] = array(
+           'field_id' => 'modl_meta_og_title',
+           'field_label' => lang('og_title'),
+           'field_required' => 'n',
+           'field_data' => $og_title,
+           'field_list_items' => '',
+           'field_fmt' => '',
+           'field_instructions' => lang('og_title_instructions'),
+           'field_show_fmt' => 'n',
+           'field_fmt_options' => array(),
+           'field_pre_populate' => 'n',
+           'field_text_direction' => 'ltr',
+           'field_type' => 'text',
+           'field_maxl' => '1024'
+        );
+
         $settings[] = array(
            'field_id' => 'modl_meta_og_type',
            'field_label' => lang('og_type'),
@@ -100,8 +118,6 @@ class Modl_meta_tab {
            'field_list_items' => array(
            		'' => '-- Select Type --',
            		'article' => 'Article',
-           		'blog' => 'Blog',
-           		'website' => 'Website',
            		'profile' => 'Profile',
            		'video' => 'Video',
            		'music' => 'Music',
@@ -170,17 +186,22 @@ class Modl_meta_tab {
         $modl_meta_data = $params['mod_data']; // get module related entry data posted
         $site_id = $params['meta']['site_id'];
         $entry_id = $params['entry_id'];
-
+        if($modl_meta_data['modl_meta_og_image']) // check if an image was selected and build with directory id
+        {
+            $og_image = '{filedir_'.$entry_data['modl_meta__modl_meta_og_image_directory'].'}'.$modl_meta_data['modl_meta_og_image'];
+        } else {
+          $og_image = '';
+        }
         $content = array(
             'site_id' => $site_id,
             'entry_id' => $entry_id,
             'title' => $modl_meta_data['modl_meta_title'],
             'keywords' => $modl_meta_data['modl_meta_keywords'],
             'description' => $modl_meta_data['modl_meta_description'],
-            // Open Graph
+            'og_title' => $modl_meta_data['modl_meta_og_title'],
             'og_type' => $modl_meta_data['modl_meta_og_type'],
             'og_description' => $modl_meta_data['modl_meta_og_description'],
-            'og_image' => '{filedir_'.$entry_data['modl_meta__modl_meta_og_image_directory'].'}'.$modl_meta_data['modl_meta_og_image'],
+            'og_image' => $og_image,
         );
 
 

@@ -1,6 +1,5 @@
 ﻿h1. MODL Meta
 
-
 h2. Overview
 
 An ExpressionEngine 2.x module *MODL Meta* allows for default site-wide meta, template meta overrides, and per entry meta through custom MODL Meta fields. In addition to basic SEO metadata, MODL Meta includes basic Open Graph tags to work with Social Network shares such as Facebook Likes and Google +1.
@@ -30,11 +29,69 @@ To update a site using SEO Lite to MODL Meta, you need to update the version of 
 
 h2. Usage
 
-_Coming Soon_
+MODL Meta has a variety of ways to populate both SEO and Open Graph related metadata.
+
+* Configuration Defaults: Add-on defaults can be set.
+* Dynamic Entry Data: In addition to channel titles used for page titles, MODL Meta adds a custom tab to all channel publish forms that include fully customizable SEO and Open Graph metadata. This allows for per entry metadata which is great for dynamic content such as news, blogs, and such.
+* Template Tags: Through use of parameters you can pass metadata directly through the MODL Meta tag. This great for static templates such as a home page or blog list view for example.
+
+Priorities are generally given in this order if all data is present:
+
+Entry Meta > Default Config > Tag Parameter
+
+h3. Configuration
+
+Module settings including defaults for select basic meta and appropriate open graph tags can be accessed at Addons -> Modules -> MODL Meta. 
+
+|_. Setting|_. Description|
+|Template|This is the template that is added to your ExpressionEngine template where your MODL Meta tags are placed.|
+|Default title postfix|This setting defines what should follow the default title value. We default to @ |&nbsp;@ as this will add spacing and a pipe between your default title and the site name for your page title.|
+|Default page keywords|Basic meta keywords for SEO.|
+|Default page description|Basic description for SEO.|
+|Default Open Graph description|Default description for open graph tags. Can be left blank if you woudl prefer to set these on per entry and/or if there is no per entry allow Open Graph Consumers (Facebook, Google +1) to scrape the page dynamically for description copy.|
+|Default Open Graph image|Provide a full (absolute) URL to an image to use by default for Open Graph meta.|
+
+h3. Core Template Tag
+
+There is one core template tag added to your site's header: @{exp:modl_meta}@
+
+h4. Key Usage Examples
+
+|_. Description|_. Tag Usage Example|
+|By *segment*|@{exp:modl_meta url_title="{segment_3}"}@|
+|By *entry_id*|@{exp:modl_meta entry_id="{entry_id}"}@|
+|Dynamic segment|@{exp:modl_meta use_last_segment="yes"}@|
+|Static - will either use config default or parameters|@{exp:modl_meta default_title="Hello World"}@| 
+
+h4. Parameters
+
+|_. Parameter|_. Options|_. Description|
+|entry_id||The id of the entry you wish to get metadata about.|
+|url_title||The url title of the entry you wish to get metadata about (perfect for segments)|
+|use_last_segment|y/n|Use this if you want to fetch metadata based on the last segment (Note; this will work w/pagination as well)|
+|category_url_title||Optional, use if you wish to fetch a category (title will be category title, description will be category description -- or defaults)|
+|site_id||Used for MSM installs and optional, if you are getting content from another site then the current use this|
+|default_title||Override the default title in the template|
+|default_keywords||Override the default keywords in the template|
+|default_description||Override the default description in the template|
+|default_og_title||Override the default Open Graph title|
+|default_og_description||Override the default Open Graph description|
+|default_og_image||Override the default Open Graph image. Provide a full (absolute) URL|
+|default_og_type||Override the default Open Graph type|
+|title_prefix||A string to prefix the title with|
+|title_postfix||A string to postfix the title with|
+|title_override||Complete overrides title and any default configurations and template settings|
+|ignore_last_segments||Specify the number of segments to ignore at the end - e.g. 2 (ie. if you have an url that includes /sort/asc at the end you don't want to include those in the canonical url + when searching for the url entry in conjuction with the "use_last_segment" parameter)|
+|friendly_segments|y/n (default is n)|if {segment_x} is used in the SEO Lite template make it friendly (ie. ‘this_is_some_url_title_segment’ will be ‘This is some url title segment’)|
+|tag_prefix||if you want to prefix the MODL Meta tags, use this (ie. the {meta_description} will be {seo_meta_description} if you add a tag_prefix="seo_"|
 
 h2. Change Log
 
 h3. 1.0
+
+* Added Open Graph title, image, description, type tags, site name, admin/app_id tags. Changes made to publish tab, add-on settings, and template tags.
+* Revised add-on settings layout
+* Install includes data conversion from SEO Lite v1.3.4 to MODL Meta v1.0. See installation instructions for details.
 
 h1. About SEO Lite & Credit
 

@@ -1,51 +1,6 @@
-<style type="text/css">
-    .fullwidth {
-        width:100%;
-    }
 
-    #instructions {
-        display:none;
-    }
-</style>
-
-<script type="text/javascript">
-
-    $(document).ready(
-            function() {
-
-                $('#view_instructions').click(function(){
-                    if($('#instructions').is(':visible')) {
-                        $('#instructions').hide('fast');
-                        $('#view_instructions').html('Show instructions');
-                    }
-                    else
-                    {
-                        $('#instructions').show('fast');
-                        $('#view_instructions').html('Hide instructions');
-                    }
-                });
-                
-            });
-
-</script>
-
-<h3><a href="#" id="view_instructions">View instructions</a></h3>
-
-    <div id="instructions">
-        <p>Put one of these tags in your template:</p>
-
-        <p>By <strong>segment</strong>: <input type='text' class="fullwidth" value='{exp:modl_meta url_title="{segment_3}"}' readonly/> </p>
-        <p>By <strong>entry_id</strong>: <input type='text' class="fullwidth" value='{exp:modl_meta entry_id="{entry_id}"}' readonly/></p>
-        <p><strong>Intelligent mode</strong> aka Use-Last-Segment-Mode: <input type='text' class="fullwidth" value='{exp:modl_meta use_last_segment="yes"}' readonly/></p>
-        <p><strong>Static mode</strong> aka I-Will-Provide-Values-In-Template: (this will output "About Us" for the title tag but still use the default keywords/description for the site) <input type='text' class="fullwidth" value='{exp:modl_meta default_title="About us"}' readonly/></p></p>
-        <p><strong>Static mode</strong> with everything overridden: <input type='text' class="fullwidth" value='{exp:modl_meta default_title="About us" default_keywords="new, keywords" default_description="This description is unique for this page"}' readonly/></p></p>
-
-        <p>&nbsp;</p>
-        <p><em>Either of these tags will output the template below with the title/keywords/description specific for the content. The template below is parsed as a normal EE template, so you can use any EE global variavbles and conditionals etc.</em> <a href="http://ee.bybjorn.com/modl_meta">More instructions available here.</a></p>
-
-        <p>&nbsp;</p>
-    </div>
-
+<h3>MODL Meta Settings</h3>
+<p>The following are key configuration settings and site wide defaults.</p>
 <?php
 	$this->table->set_template($cp_table_template);
 	$this->table->set_heading(array(
@@ -66,6 +21,25 @@
             )
         );
 
+        $this->table->add_row(array(
+                lang('default_title_postfix', 'modl_meta_default_title_postfix'),
+                form_error('modl_meta_default_title_postfix').
+                form_input('modl_meta_default_title_postfix', set_value('modl_meta_default_title_postfix', $default_title_postfix), 'id="modl_meta_default_title_postfix"')
+            )
+        );
+
+        echo $this->table->generate();
+    ?>
+    <h3>Basic Meta Defaults</h3>
+    <p>The following are default SEO meta settings. Page title is managed per entry or via a template tag and does not have a site default.</p>
+    <?php    
+
+        $this->table->set_heading(array(
+            array('data' => lang('setting'), 'width' => '50%'),
+            lang('current_value')
+            )
+        );
+
 		$this->table->add_row(array(
 				lang('default_keywords', 'modl_meta_default_keywords'),
 				form_error('modl_meta_default_keywords').
@@ -80,14 +54,17 @@
             )
         );
 
-
-        $this->table->add_row(array(
-	            lang('default_title_postfix', 'modl_meta_default_title_postfix'),
-	            form_error('modl_meta_default_title_postfix').
-	            form_input('modl_meta_default_title_postfix', set_value('modl_meta_default_title_postfix', $default_title_postfix), 'id="modl_meta_default_title_postfix"')
+        echo $this->table->generate();
+    ?>
+    <h3>Open Graph Meta Defaults</h3>
+    <p>The following are default Open Graph settings. Not all basic Open Graph tags make sense to have site defaults as "og:type" is a per entry setting, and title will be either drawn dynamically from entry or added to template tag.</p>
+    <?php
+        $this->table->set_heading(array(
+            array('data' => lang('setting'), 'width' => '50%'),
+            lang('current_value')
             )
         );
-        
+
 		$this->table->add_row(array(
 		        lang('default_og_description', 'modl_meta_default_og_description'),
 		        form_error('modl_meta_default_og_description').
@@ -101,10 +78,7 @@
 	            form_input('modl_meta_default_og_image', set_value('modl_meta_default_og_image', $default_og_image), 'id="modl_meta_default_og_image"')
             )
         );
-
-
-
-		echo $this->table->generate();
+        echo $this->table->generate();
 	?>
 	<p>
 		<?=form_submit(array('name' => 'submit', 'value' => lang('update'), 'class' => 'submit'))?>

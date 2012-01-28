@@ -32,7 +32,6 @@ class Modl_meta_mcp
 
 		//  Onward!
 		$this->EE->load->library('table');
-		$this->EE->load->library('javascript');
 		$this->EE->load->helper('form');
 		$this->EE->lang->loadfile('modl_meta');
 	}
