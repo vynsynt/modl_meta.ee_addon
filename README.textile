@@ -1,5 +1,4 @@
-﻿
-h1. MODL Meta
+﻿h1. MODL Meta
 
 h2. Overview
 
