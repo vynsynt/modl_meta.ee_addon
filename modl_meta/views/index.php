@@ -65,6 +65,13 @@
             )
         );
 
+        $this->table->add_row(array(
+                lang('og_fb_admin', 'modl_meta_og_fb_admin'),
+                form_error('modl_meta_og_fb_admin').
+                form_input('modl_meta_og_fb_admin', set_value('modl_meta_og_fb_admin', $og_fb_admin), 'id="modl_meta_og_fb_admin"')
+            )
+        );
+
 		$this->table->add_row(array(
 		        lang('default_og_description', 'modl_meta_default_og_description'),
 		        form_error('modl_meta_default_og_description').

@@ -56,6 +56,7 @@ class Modl_meta_mcp
 		// MODL Meta
 		$vars['default_og_description'] = $config->row('default_og_description');
 		$vars['default_og_image'] = $config->row('default_og_image');
+		$vars['og_fb_admin'] = $config->row('og_fb_admin');
 		
 		return $this->content_wrapper('index', 'modl_meta_welcome', $vars);
 	}
@@ -70,7 +71,8 @@ class Modl_meta_mcp
         //MODL Meta
 		$default_og_description = $this->EE->input->post('modl_meta_default_og_description');
 		$default_og_image = $this->EE->input->post('modl_meta_default_og_image');
-		
+		$og_fb_admin = $this->EE->input->post('modl_meta_og_fb_admin');
+
         $site_id = $this->EE->config->item('site_id');
         $config = $this->EE->db->get_where('modl_meta_config', array('site_id' => $site_id));
 
@@ -82,6 +84,7 @@ class Modl_meta_mcp
                 // MODL Meta
                 'default_og_description' => $default_og_description,
                 'default_og_image' => $default_og_image,
+                'og_fb_admin' => $og_fb_admin,
             );
 
         if($config->num_rows() == 0)

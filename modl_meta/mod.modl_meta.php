@@ -54,7 +54,7 @@ class Modl_meta {
         if($category_url_title)
         {
             // Revised for MODL Meta
-            $this->EE->db->select('cat_name, cat_description, default_keywords, default_description, default_title_postfix, template, default_og_description, default_og_image')->from('categories')->where(array('cat_url_title' => $category_url_title, 'categories.site_id' => $site_id));
+            $this->EE->db->select('cat_name, cat_description, default_keywords, default_description, default_title_postfix, template, default_og_description, default_og_image, og_fb_admin')->from('categories')->where(array('cat_url_title' => $category_url_title, 'categories.site_id' => $site_id));
             $this->EE->db->join('modl_meta_config', 'modl_meta_config.site_id = categories.site_id');
             $q = $this->EE->db->get();
             if($q->num_rows() > 0)
@@ -70,6 +70,7 @@ class Modl_meta {
                     $tag_prefix.'meta_og_title' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->cat_name, $default_og_title), ENT_QUOTES),
                     $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->default_og_description, $default_og_description, $modl_meta_entry->default_og_description), ENT_QUOTES),
                     $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($modl_meta_entry->default_og_image, $default_og_image, $modl_meta_entry->default_og_image), array('parse_images' => TRUE, 'text_format' => 'none', 'auto_links' => 'n')),
+                    $tag_prefix.'meta_og_fb_admin' => htmlspecialchars($modl_meta_entry->og_fb_admin, ENT_QUOTES),
                     // Currently no OG Type for category URL case
                 );
 
@@ -99,7 +100,7 @@ class Modl_meta {
                 }
             }
 			// Revised for MODL Meta
-            $this->EE->db->select('channel_titles.entry_id, channel_titles.title as original_title, url_title, modl_meta_content.title as seo_title, default_keywords, default_description, default_title_postfix, keywords, description, modl_meta_config.template, default_og_description, og_description, default_og_image, og_image, og_type, og_title');
+            $this->EE->db->select('channel_titles.entry_id, channel_titles.title as original_title, url_title, modl_meta_content.title as seo_title, default_keywords, default_description, default_title_postfix, keywords, description, modl_meta_config.template, default_og_description, og_description, default_og_image, og_image, og_type, og_title, og_fb_admin');
             $this->EE->db->from('channel_titles');
             $where = array('channel_titles.site_id' => $site_id);
             if($url_title)
@@ -129,6 +130,7 @@ class Modl_meta {
                     $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->og_description, $default_og_description, $modl_meta_entry->default_og_description), ENT_QUOTES),
                     $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($modl_meta_entry->og_image, $default_og_image, $modl_meta_entry->default_og_image), array('parse_images' => TRUE, 'text_format' => 'none', 'auto_links' => 'n')),
                     $tag_prefix.'meta_og_type' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->og_type, $default_og_type), ENT_QUOTES),
+                    $tag_prefix.'meta_og_fb_admin' => htmlspecialchars($modl_meta_entry->og_fb_admin, ENT_QUOTES),
                 );
                 $got_values = TRUE;
             }
@@ -149,6 +151,7 @@ class Modl_meta {
                 $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($default_og_description, $modl_meta_entry->default_og_description), ENT_QUOTES),
                 $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($default_og_image, $modl_meta_entry->default_og_image), array('parse_images' => TRUE, 'text_format' => 'none', 'auto_links' => 'n')),
                 $tag_prefix.'meta_og_type' => htmlspecialchars($default_og_type, ENT_QUOTES),
+                $tag_prefix.'meta_og_fb_admin' => htmlspecialchars($modl_meta_entry->og_fb_admin, ENT_QUOTES),
             );
         }
 

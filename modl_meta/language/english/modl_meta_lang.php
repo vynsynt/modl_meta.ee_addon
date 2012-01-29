@@ -17,6 +17,7 @@ $lang['seodescription'] = 'SEO Meta: Description';
 $lang['description_instructions'] = 'Write a short sentence or two that sums up the entry (many search engines will display this in the search results)';
 $lang['default_title_postfix'] = 'Default title postfix';
 $lang['default_title_postfix_description'] = "Whatever you specify here will be appended after the {title}, unless overridden by the <em>title_postfix</em> parameter in the tag.";
+$lang['og_fb_admin'] = 'Facebook admin ids. Enter multiple admins separated by a comma.';
 $lang['og_title'] = 'Open Graph: Title';
 $lang['og_title_instructions'] = 'Enter a title for this entry for Open Graph readers.';
 $lang['og_description'] = 'Open Graph: Description';

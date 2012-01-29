@@ -1,4 +1,4 @@
-﻿h1. MODL Meta
+﻿h2. MODL Meta
 
 h2. Overview
 
@@ -18,7 +18,7 @@ Install in system/expressionengine/third_party/modl_meta
 
 h3. Updating from SEO Lite
 
-To update a site using SEO Lite to MODL Meta, you need to update the version of SEO Lite to between 1.2.4 - 1.3.4. (NOTE TO SELF: Add a tag or branch link to this version so we have a copy) Then follow the following steps:
+To update a site using SEO Lite to MODL Meta, you need to update the version of SEO Lite to between 1.2.4 - 1.3.4. and then follow the following steps:
 
 * Backup the _exp_seolite_config_ and _exp_seolite_content_ tables.
 * Through CP, remove the SEO Lite Module
@@ -45,7 +45,7 @@ Module settings including defaults for select basic meta and appropriate open gr
 
 |_. Setting|_. Description|
 |Template|This is the template that is added to your ExpressionEngine template where your MODL Meta tags are placed.|
-|Default title postfix|This setting defines what should follow the default title value. We default to @ |&nbsp;@ as this will add spacing and a pipe between your default title and the site name for your page title.|
+|Default title postfix|This setting defines what should follow the default title value.|
 |Default page keywords|Basic meta keywords for SEO.|
 |Default page description|Basic description for SEO.|
 |Default Open Graph description|Default description for open graph tags. Can be left blank if you woudl prefer to set these on per entry and/or if there is no per entry allow Open Graph Consumers (Facebook, Google +1) to scrape the page dynamically for description copy.|
