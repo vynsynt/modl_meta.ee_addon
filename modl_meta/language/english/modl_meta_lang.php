@@ -1,0 +1,31 @@
+<?php
+//MODL Meta modified and added OG related entries.
+$lang['modl_meta'] = 'MODL Meta';
+$lang['modl_meta_module_name'] = "MODL Meta";
+$lang['modl_meta_module_description'] = "SEO Meta and Social Meta";
+$lang['modl_meta_welcome'] = "Welcome to MODL Meta";
+$lang['default_keywords'] = "Default page keywords";
+$lang['default_description'] = "Default page description";
+$lang['default_og_description'] = "Default Open Graph description. Leave blank if desired.";
+$lang['current_value'] = 'Current Value';
+$lang['settings_saved'] = 'MODL Meta settings saved';
+$lang['seotitle'] = 'SEO: Title';
+$lang['title_instructions'] = "Optional, if you do not specify anything the entry title will be used. Remember that most search-engines use a maximum of 60 characters for the title.";
+$lang['seokeywords'] = 'SEO Meta: Keywords';
+$lang['keywords_instructions'] = 'A comma separated list of keywords';
+$lang['seodescription'] = 'SEO Meta: Description';
+$lang['description_instructions'] = 'Write a short sentence or two that sums up the entry (many search engines will display this in the search results)';
+$lang['default_title_postfix'] = 'Default title postfix';
+$lang['default_title_postfix_description'] = "Whatever you specify here will be appended after the {title}, unless overridden by the <em>title_postfix</em> parameter in the tag.";
+$lang['og_fb_admin'] = 'Facebook admin ids. Enter multiple admins separated by a comma.';
+$lang['og_title'] = 'Open Graph: Title';
+$lang['og_title_instructions'] = 'Enter a title for this entry for Open Graph readers.';
+$lang['og_description'] = 'Open Graph: Description';
+$lang['og_description_instructions'] = 'A one to two sentence description of your entry for Open Graph readers.';
+$lang['og_type'] = 'Open Graph: Type';
+$lang['og_type_instructions'] = 'Select the type that represents this entry and/or content Channel, e.g., "article" for Open Graph readers.';
+$lang['og_image'] = 'Open Graph: Image';
+$lang['og_image_instructions'] = 'Use this to provide an image that represent this entry for Open Graph readers. It must be at least 50px by 50px and have a maximum aspect ratio of 3:1.';
+$lang['default_og_image'] = 'Default Open Graph image. Enter an absolute path for the default Open Graph Image for site. Leave blank if you would prefer not to provide one.';
+$lang['docs'] = 'Documentation';
+$lang['settings'] = 'Settings';
