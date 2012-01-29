@@ -44,7 +44,7 @@ h3. Configuration
 Module settings including defaults for select basic meta and appropriate open graph tags can be accessed at Addons -> Modules -> MODL Meta. 
 
 |_. Setting|_. Description|
-|Template|This is the code snippet that is added to your ExpressionEngine template where your MODL Meta tags are rendered.|
+|Template|This is the code snippet that is added to your ExpressionEngine template where your MODL Meta tags are rendered. "Current Default":https://gist.github.com/1696503|
 |Default title postfix|This setting defines what should follow the default title value.|
 |Default page keywords|Basic meta keywords for SEO.|
 |Default page description|Basic description for SEO.|
