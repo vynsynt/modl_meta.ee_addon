@@ -62,6 +62,9 @@ class Modl_meta_upd {
 				'seolite_content_id' => array(
 					'name' => 'modl_meta_content_id',
 					'type' => 'INT',
+					'contstraint' => 10,
+					'unsigned' => TRUE,
+					'auto_increment' => TRUE
 				),
 			);
 			$this->EE->dbforge->modify_column('modl_meta_content', $fields);
@@ -70,6 +73,9 @@ class Modl_meta_upd {
 				'seolite_config_id' => array(
 					'name' => 'modl_meta_config_id',
 					'type' => 'INT',
+					'constraint' => 10,
+					'unsigned' => TRUE,
+					'auto_increment' => TRUE
 				),
 			);
 			$this->EE->dbforge->modify_column('modl_meta_config', $fields);
