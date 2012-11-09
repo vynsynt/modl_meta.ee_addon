@@ -90,6 +90,7 @@ h2. Change Log
 h3. 1.0.1
 
 * Added an EE version check when overriding the default OG Image to see wether or not {filedir_#} needs to be appended to the image path before saving in the db.
+* Fix tested on 2.3.1, 2.4, 2.5.2, & 2.5.3
 
 h3. 1.0
 
