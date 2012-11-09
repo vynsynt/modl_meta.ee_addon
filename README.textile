@@ -87,6 +87,10 @@ h4. Parameters
 
 h2. Change Log
 
+h3. 1.0.1
+
+* Added an EE version check when overriding the default OG Image to see wether or not {filedir_#} needs to be appended to the image path before saving in the db.
+
 h3. 1.0
 
 * Added Open Graph title, image, description, type tags, site name, admin/app_id tags. Changes made to publish tab, add-on settings, and template tags.

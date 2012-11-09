@@ -188,7 +188,12 @@ class Modl_meta_tab {
         $entry_id = $params['entry_id'];
         if($modl_meta_data['modl_meta_og_image']) // check if an image was selected and build with directory id
         {
+          //check EE version to see if we need to append the filedir, or if EE will do it automagically
+          if ($this->EE->config->item('app_version') < '250') { 
             $og_image = '{filedir_'.$entry_data['modl_meta__modl_meta_og_image_directory'].'}'.$modl_meta_data['modl_meta_og_image'];
+          } else {
+            $og_image = $modl_meta_data['modl_meta_og_image'];
+          }
         } else {
           $og_image = '';
         }
