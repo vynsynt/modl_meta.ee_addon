@@ -41,7 +41,8 @@ class Modl_meta {
         // MODL Meta Open Graph
         $default_og_title = $this->get_param('default_og_title');
         $default_og_description = $this->get_param('default_og_description');
-        $default_og_image = $this->get_param('default_og_image');
+        $default_og_image = $this->get_param('default_og_image','');
+        $default_og_image = $this->EE->TMPL->parse_globals($default_og_image);
         $default_og_type = $this->get_param('default_og_type');
 		
         if($use_last_segment)
