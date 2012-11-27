@@ -6,7 +6,7 @@ An ExpressionEngine 2.x module *MODL Meta* allows for default site-wide meta, te
 
 *Continuing Development By:* Minds On Design Lab - http://mod-lab.com
 *Original Development By:* SEO Lite - "bjornbjorn":https://github.com/bjornbjorn
-*Version:* 1.0.1
+*Version:* 1.0.2
 *Copyright:* Modifications Copyright &copy; 2011 Minds On Design Lab
 *License:* "http://creativecommons.org/licenses/by/3.0/":http://creativecommons.org/licenses/by/3.0/
 
