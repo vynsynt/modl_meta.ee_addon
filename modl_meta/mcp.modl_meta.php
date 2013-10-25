@@ -9,17 +9,17 @@
  * @author		Minds On Design Lab (Extended)
  * @link		https://github.com/Minds-On-Design-Lab/modl_meta.ee_addon - Extended from SEO Lite http://ee.bybjorn.com/seo_lite
  */
- 
-class Modl_meta_mcp 
+
+class Modl_meta_mcp
 {
-	var $base;			// the base url for this module			
+	var $base;			// the base url for this module
 	var $form_base;		// base url for forms
-	var $module_name = "modl_meta";	
+	var $module_name = "modl_meta";
 
 	function Modl_meta_mcp( $switch = TRUE )
 	{
 		// Make a local reference to the ExpressionEngine super object
-		$this->EE =& get_instance(); 
+		$this->EE =& get_instance();
 		$this->base	 	 = BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module='.$this->module_name;
 		$this->form_base = 'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module='.$this->module_name;
 
@@ -36,7 +36,7 @@ class Modl_meta_mcp
 		$this->EE->lang->loadfile('modl_meta');
 	}
 
-	function index() 
+	function index()
 	{
 		$vars = array();
 
@@ -52,22 +52,29 @@ class Modl_meta_mcp
         $vars['default_description'] = $config->row('default_description');
         $vars['default_keywords'] = $config->row('default_keywords');
         $vars['default_title_postfix'] = $config->row('default_title_postfix');
-		
+
 		// MODL Meta
 		$vars['default_og_description'] = $config->row('default_og_description');
 		$vars['default_og_image'] = $config->row('default_og_image');
 		$vars['og_fb_admin'] = $config->row('og_fb_admin');
-		
+
 		return $this->content_wrapper('index', 'modl_meta_welcome', $vars);
 	}
-	
+
+    function lang()
+    {
+        $vars = array();
+
+        return $this->content_wrapper('lang', 'modl_meta_welcome', $vars);
+    }
+
 	function save_settings()
 	{
 		$template = $this->EE->input->post('modl_meta_template');
         $default_keywords = $this->EE->input->post('modl_meta_default_keywords');
         $default_description = $this->EE->input->post('modl_meta_default_description');
         $default_title_postfix = $this->EE->input->post('modl_meta_default_title_postfix');
-        
+
         //MODL Meta
 		$default_og_description = $this->EE->input->post('modl_meta_default_og_description');
 		$default_og_image = $this->EE->input->post('modl_meta_default_og_image');
@@ -102,7 +109,7 @@ class Modl_meta_mcp
 		$this->EE->functions->redirect($this->base);
 	}
 
-	
+
 	function content_wrapper($content_view, $lang_key, $vars = array())
 	{
 		$vars['content_view'] = $content_view;
@@ -113,8 +120,8 @@ class Modl_meta_mcp
 
 		return $this->EE->load->view('_wrapper', $vars, TRUE);
 	}
-	
+
 }
 
-/* End of file mcp.modl_meta.php */ 
-/* Location: ./system/expressionengine/third_party/modl_meta/mcp.modl_meta.php */ 
+/* End of file mcp.modl_meta.php */
+/* Location: ./system/expressionengine/third_party/modl_meta/mcp.modl_meta.php */

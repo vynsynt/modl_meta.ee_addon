@@ -1,3 +1,16 @@
+<h3>
+    Language:
+    &nbsp;&nbsp;
+    <select>
+        <option value="fr">French</option>
+        <option value="en" selected>English</option>
+        <option value="es">Spanish</option>
+    </select>
+    &nbsp;&nbsp;
+    <a class="" href="#" style="font-size:0.8em;">+ Add New Language</a>
+</h3>
+
+<hr />
 
 <h3>MODL Meta Settings</h3>
 <p>The following are key configuration settings and site wide defaults.</p>
@@ -12,7 +25,7 @@
 
 <?=form_open($_form_base.'&method=save_settings')?>
 
-	<?php 
+	<?php
 
         $this->table->add_row(array(
                 lang('template', 'modl_meta_template'),
@@ -32,7 +45,7 @@
     ?>
     <h3>Basic Meta Defaults</h3>
     <p>The following are default SEO meta settings. Page title is managed per entry or via a template tag and does not have a site default.</p>
-    <?php    
+    <?php
 
         $this->table->set_heading(array(
             array('data' => lang('setting'), 'width' => '50%'),
@@ -46,7 +59,7 @@
 				form_input('modl_meta_default_keywords', set_value('modl_meta_default_keywords', $default_keywords), 'id="modl_meta_default_keywords"')
 			)
 		);
-		
+
         $this->table->add_row(array(
                 lang('default_description', 'modl_meta_default_description'),
                 form_error('modl_meta_default_description').
@@ -78,7 +91,7 @@
 		        form_textarea('modl_meta_default_og_description', set_value('modl_meta_default_og_description', $default_og_description), 'id="modl_meta_default_og_description"')
             )
         );
-        
+
         $this->table->add_row(array(
 	            lang('default_og_image', 'modl_meta_default_og_image'),
 	            form_error('modl_meta_default_og_image').
