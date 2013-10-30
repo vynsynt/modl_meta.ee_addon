@@ -32,3 +32,4 @@ $lang['settings'] = 'Settings';
 $lang['languages'] = 'Languages';
 $lang['language'] = 'Language';
 $lang['language_cc'] = 'Country Code';
+$lang['language_instructions'] = 'Update language specific meta properties.';

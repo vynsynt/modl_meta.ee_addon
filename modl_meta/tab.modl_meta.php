@@ -27,6 +27,7 @@ class Modl_meta_tab {
         $settings = array();
 
         $title = $keywords = $description = $og_description = $og_image = $og_type = $og_title = '';
+        $languages = array();
         if($entry_id)
         {
             $q = $this->EE->db->get_where('modl_meta_content', array('entry_id' => $entry_id));
@@ -40,8 +41,33 @@ class Modl_meta_tab {
                 $og_type = $q->row('og_type');
                 $og_description = $q->row('og_description');
                 $og_image = $q->row('og_image');
+                $language = $q->row('language');
             }
         }
+
+        $site_id = $this->EE->config->item('site_id');
+        $config = $this->EE->db->get_where('modl_meta_config', array('site_id' => $site_id));
+
+        if($config->num_rows() == 0) // we did not find any config for this site id, so just load any other
+        {
+            $config = $this->EE->db->get_where('modl_meta_config');
+        }
+
+        $languages = json_decode($config->row('languages'), true);
+
+        $settings[] = array(
+           'field_id' => 'modl_media_lang_cc',
+           'field_label' => lang('language'),
+           'field_required' => 'n',
+           'field_data' => 'en',
+           'field_list_items' => $languages,
+           'field_fmt' => '',
+           'field_instructions' => lang('language_instructions'),
+           'field_show_fmt' => 'n',
+           'field_fmt_options' => array(),
+           'field_pre_populate' => 'n',
+           'field_type' => 'select',
+        );
 
         $settings[] = array(
            'field_id' => 'modl_meta_title',
@@ -91,7 +117,7 @@ class Modl_meta_tab {
            'field_ta_rows'		   => 5,
 
        );
-       
+
        // MODL Meta - Open Graph
 
         $settings[] = array(
@@ -132,7 +158,7 @@ class Modl_meta_tab {
 
        );
 
-       
+
        $settings[] = array(
            'field_id' => 'modl_meta_og_description',
            'field_label' => lang('og_description'),
@@ -149,7 +175,7 @@ class Modl_meta_tab {
            'field_ta_rows'		   => 5,
 
        );
-       
+
         $settings[] = array(
            'field_id' => 'modl_meta_og_image',
            'field_label' => lang('og_image'),
@@ -189,7 +215,7 @@ class Modl_meta_tab {
         if($modl_meta_data['modl_meta_og_image']) // check if an image was selected and build with directory id
         {
           //check EE version to see if we need to append the filedir, or if EE will do it automagically
-          if ($this->EE->config->item('app_version') < '250') { 
+          if ($this->EE->config->item('app_version') < '250') {
             $og_image = '{filedir_'.$entry_data['modl_meta__modl_meta_og_image_directory'].'}'.$modl_meta_data['modl_meta_og_image'];
           } else {
             $og_image = $modl_meta_data['modl_meta_og_image'];
