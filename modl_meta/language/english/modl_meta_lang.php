@@ -29,3 +29,6 @@ $lang['og_image_instructions'] = 'Use this to provide an image that represent th
 $lang['default_og_image'] = 'Default Open Graph image. Enter an absolute path for the default Open Graph Image for site. Leave blank if you would prefer not to provide one.';
 $lang['docs'] = 'Documentation';
 $lang['settings'] = 'Settings';
+$lang['languages'] = 'Languages';
+$lang['language'] = 'Language';
+$lang['language_cc'] = 'Country Code';

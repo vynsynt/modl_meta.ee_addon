@@ -26,6 +26,7 @@ class Modl_meta_mcp
         // uncomment this if you want navigation buttons at the top
 		$this->EE->cp->set_right_nav(array(
 				'settings'			=> $this->base,
+                'languages'         => $this->base.AMP.'method=lang',
 				'docs'	=> 'https://github.com/Minds-On-Design-Lab/modl_meta.ee_addon',
 			));
 
@@ -57,6 +58,7 @@ class Modl_meta_mcp
 		$vars['default_og_description'] = $config->row('default_og_description');
 		$vars['default_og_image'] = $config->row('default_og_image');
 		$vars['og_fb_admin'] = $config->row('og_fb_admin');
+        $vars['languages'] = json_decode($config->row('languages'), true);
 
 		return $this->content_wrapper('index', 'modl_meta_welcome', $vars);
 	}
@@ -65,7 +67,67 @@ class Modl_meta_mcp
     {
         $vars = array();
 
+
+        $site_id = $this->EE->config->item('site_id');
+        $config = $this->EE->db->get_where('modl_meta_config', array('site_id' => $site_id));
+
+        if($config->num_rows() == 0) // we did not find any config for this site id, so just load any other
+        {
+            $config = $this->EE->db->get_where('modl_meta_config');
+        }
+
+        $languages = $config->row('languages');
+        if( $languages && strlen($languages) ) {
+            $vars['languages'] = json_decode($languages, true);
+        }
+
         return $this->content_wrapper('lang', 'modl_meta_welcome', $vars);
+    }
+
+    function save_langs()
+    {
+        $languages = $this->EE->input->post('modl_meta_languages');
+        $codes = $this->EE->input->post('modl_meta_languages_codes');
+
+        if( is_array($languages) && is_array($codes) && count($languages) == count($codes) )
+        {
+            $codes = array_map(function($s) {
+                return strtolower($s);
+            }, $codes);
+
+
+            $langs = array_combine($codes, $languages);
+
+            if( !strlen(end($langs)) ) {
+                array_pop($langs);
+            }
+
+            $site_id = $this->EE->config->item('site_id');
+            $config = $this->EE->db->get_where('modl_meta_config', array('site_id' => $site_id));
+
+            if($config->num_rows() == 0)
+            {
+                $data = array(
+                    'site_id'       => $site_id,
+                    'languages'     => json_encode($langs)
+                    );
+                $this->EE->db->insert('modl_meta_config', $data);
+            }
+            else
+            {
+                $data = array(
+                    'languages'     => json_encode($langs)
+                    );
+                $this->EE->db->where('site_id', $site_id);
+                $this->EE->db->update('modl_meta_config', $data);
+            }
+
+            $this->EE->session->set_flashdata('message_success', lang('settings_saved'));
+        }
+
+        $this->EE->functions->redirect($this->base.AMP.'method=lang');
+        return;
+
     }
 
 	function save_settings()

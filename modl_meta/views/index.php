@@ -1,17 +1,3 @@
-<h3>
-    Language:
-    &nbsp;&nbsp;
-    <select>
-        <option value="fr">French</option>
-        <option value="en" selected>English</option>
-        <option value="es">Spanish</option>
-    </select>
-    &nbsp;&nbsp;
-    <a class="" href="#" style="font-size:0.8em;">+ Add New Language</a>
-</h3>
-
-<hr />
-
 <h3>MODL Meta Settings</h3>
 <p>The following are key configuration settings and site wide defaults.</p>
 <?php
@@ -24,7 +10,6 @@
 ?>
 
 <?=form_open($_form_base.'&method=save_settings')?>
-
 	<?php
 
         $this->table->add_row(array(

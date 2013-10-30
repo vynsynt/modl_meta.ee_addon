@@ -9,10 +9,10 @@
  * @author		Minds On Design Lab (Extended)
  * @link		https://github.com/Minds-On-Design-Lab/modl_meta.ee_addon - Extended from SEO Lite http://ee.bybjorn.com/seo_lite
  */
- 
+
 class Modl_meta_upd {
-		
-	var $version        = '1.0.2';
+
+	var $version        = '1.1';
 	var $module_name = "Modl_meta";
 
     /**
@@ -20,43 +20,43 @@ class Modl_meta_upd {
      */
     public $EE;
 
-    function modl_meta_upd( $switch = TRUE ) 
-    { 
+    function modl_meta_upd( $switch = TRUE )
+    {
 		// Make a local reference to the ExpressionEngine super object
 		$this->EE =& get_instance();
-    } 
+    }
 
     /**
      * Installer for the modl_meta module
      */
-    function install() 
-	{				
+    function install()
+	{
 		$site_id = $this->EE->config->item('site_id');
 		if($site_id == 0)	// if MODL Meta is installed with a theme site_id will be 0, so set it to 1
 		{
 			$site_id = 1;
 		}
-		
+
 		$data = array(
 			'module_name' 	 => $this->module_name,
 			'module_version' => $this->version,
 			'has_cp_backend' => 'y',
-            'has_publish_fields' => 'y'            
+            'has_publish_fields' => 'y'
 		);
 
-		$this->EE->db->insert('modules', $data);		
+		$this->EE->db->insert('modules', $data);
 
         $this->EE->load->dbforge();
-		
+
 		// Check for SEO Lite Tables and run conversion
-		
+
 		if ($this->EE->db->table_exists('exp_seolite_content') AND $this->EE->db->table_exists('exp_seolite_config'))
 		{
-		   
+
 		   	// Rename tables
 		   	$this->EE->dbforge->rename_table('exp_seolite_content', 'exp_modl_meta_content');
 		   	$this->EE->dbforge->rename_table('exp_seolite_config', 'exp_modl_meta_config');
-		   
+
 		   	// Rename existing columns tables
 		   	$fields = array(
 				'seolite_content_id' => array(
@@ -68,7 +68,7 @@ class Modl_meta_upd {
 				),
 			);
 			$this->EE->dbforge->modify_column('modl_meta_content', $fields);
-			
+
 		   	$fields = array(
 				'seolite_config_id' => array(
 					'name' => 'modl_meta_config_id',
@@ -79,14 +79,14 @@ class Modl_meta_upd {
 				),
 			);
 			$this->EE->dbforge->modify_column('modl_meta_config', $fields);
-		   	
+
 		   	// Add new fields to content table
 		   	$modl_meta_content_fields = array(
 				// MODL Meta
 				'og_title' => array(
 					'type' => 'varchar',
 					'constraint' => '1024',
-					), 
+					),
 				'og_description' => array(
 					'type' => 'text',
 					),
@@ -98,9 +98,9 @@ class Modl_meta_upd {
 					'type' => 'text',
 					),
 			);
-			
+
 			$this->EE->dbforge->add_column('modl_meta_content', $modl_meta_content_fields);
-		   	
+
 		   	// Add new fields to config table
 
 		   	$modl_meta_config_fields = array(
@@ -124,12 +124,12 @@ class Modl_meta_upd {
 					'type' => 'varchar',
 					'constraint' => '1024',
 					'null' => FALSE
-					),		
+					),
 			);
 			$this->EE->dbforge->add_column('modl_meta_config', $modl_meta_config_fields);
-		   	
+
 		} else {
-		
+
 			$modl_meta_content_fields = array(
 				'modl_meta_content_id' => array(
 					'type' => 'int',
@@ -146,11 +146,11 @@ class Modl_meta_upd {
 					'type' => 'int',
 					'constraint' => '10',
 					'null' => FALSE,
-					),				
+					),
 				'title' => array(
 					'type' => 'varchar',
 					'constraint' => '1024',
-					),            
+					),
 				'keywords' => array(
 					'type' => 'varchar',
 					'constraint' => '1024',
@@ -163,7 +163,7 @@ class Modl_meta_upd {
 				'og_title' => array(
 					'type' => 'varchar',
 					'constraint' => '1024',
-					), 
+					),
 				'og_description' => array(
 					'type' => 'text',
 					),
@@ -174,12 +174,16 @@ class Modl_meta_upd {
 				'og_image' => array(
 					'type' => 'text',
 					),
+                'language' => array(
+                    'type' => 'varchar',
+                    'constraint' => '5'
+                    )
 			);
-			
+
 			$this->EE->dbforge->add_field($modl_meta_content_fields);
         	$this->EE->dbforge->add_key('modl_meta_content_id', TRUE);
         	$this->EE->dbforge->create_table('modl_meta_content');
-        	
+
         	$modl_meta_config_fields = array(
 				'modl_meta_config_id' => array(
 					'type' => 'int',
@@ -229,13 +233,17 @@ class Modl_meta_upd {
 					'type' => 'varchar',
 					'constraint' => '1024',
 					'null' => FALSE
-					),		
+					),
+                'languages' => array(
+                    'type' => 'text',
+                    'null' => FALSE
+                    )
 			);
-			
+
 			$this->EE->dbforge->add_field($modl_meta_config_fields);
        		$this->EE->dbforge->add_key('modl_meta_config_id', TRUE);
 	        $this->EE->dbforge->create_table('modl_meta_config');
-	        
+
 	        // insert default config
 	        $this->EE->db->insert('modl_meta_config', array(
 				'template' => "<title>{title}{site_name}</title>\n<meta name='keywords' content='{meta_keywords}' />\n<meta name='description' content='{meta_description}' />\n<link rel='canonical' href='{canonical_url}' />\n<!--Open Graph Tags-->\n<meta property=\"og:site_name\" content=\"{site_name}\"/>\n<meta property=\"og:title\" content=\"{meta_og_title}\"/>\n<meta property=\"og:url\" content=\"{canonical_url}\"/>\n{if meta_og_description}<meta property=\"og:description\" content=\"{meta_og_description}\"/>\n{/if}{if meta_og_image}<meta property=\"og:image\" content=\"{meta_og_image}\"/>\n{/if}{if meta_og_type}<meta property=\"og:type\" content=\"{meta_og_type}\"/>\n{/if}<meta property=\"fb:admins\" content=\"{meta_og_fb_admin}\"/>\n<!-- generated by modl_meta -->",
@@ -246,10 +254,11 @@ class Modl_meta_upd {
 				// MODL Meta
 				'default_og_description' => 'Your default Open Graph description here. Leave blank if you would prefer not to provide one.',
 				'default_og_image' => '',
-				'og_fb_admin' => ''
-	        ));	
+				'og_fb_admin' => '',
+                'languages' => json_encode(array('en' => 'English', 'es' => 'Spanish'))
+	        ));
 		}
-		
+
         // Setup Tabs
 
         $this->EE->load->library('layout');
@@ -303,32 +312,32 @@ class Modl_meta_upd {
                 'collapse'	=> 'false',
                 'htmlbuttons'	=> 'false',
                 'width'		=> '100%',
-                ),            
+                ),
             );
 
         return $tabs;
     }
 
-	
+
 	/**
 	 * Uninstall the modl_meta module
 	 */
-	function uninstall() 
-	{ 				
+	function uninstall()
+	{
         $this->EE->load->dbforge();
-        
+
 		$this->EE->db->select('module_id');
 		$query = $this->EE->db->get_where('modules', array('module_name' => $this->module_name));
-		
+
 		$this->EE->db->where('module_id', $query->row('module_id'));
 		$this->EE->db->delete('module_member_groups');
-		
+
 		$this->EE->db->where('module_name', $this->module_name);
 		$this->EE->db->delete('modules');
-		
+
 		$this->EE->db->where('class', $this->module_name);
 		$this->EE->db->delete('actions');
-		
+
 		$this->EE->db->where('class', $this->module_name.'_mcp');
 		$this->EE->db->delete('actions');
 
@@ -340,12 +349,12 @@ class Modl_meta_upd {
 
 		return TRUE;
 	}
-	
+
 	/**
 	 * Update the modl_meta module
-	 * 
+	 *
 	 * @param $current current version number
-	 * @return boolean indicating whether or not the module was updated 
+	 * @return boolean indicating whether or not the module was updated
 	 */
     function update($current = '')
     {
@@ -353,11 +362,38 @@ class Modl_meta_upd {
         {
             return FALSE;
         }
-		
+        elseif( version_compare($current, '1.1', '<') )
+        {
+            $this->EE->dbforge->add_column('modl_meta_config', array(
+                'languages' => array(
+                    'type' => 'TEXT',
+                    'null' => FALSE
+                    )
+                ));
+            $this->EE->dbforge->add_column('modl_meta_content', array(
+                'language' => array(
+                    'type' => 'VARCHAR',
+                    'constraint' => '5'
+                    )
+                ));
+
+            $this->EE->db->update(
+                'modl_meta_config',
+                array('languages' => json_encode(array('en' => 'English', 'es' => 'Spanish')))
+                );
+
+            $this->EE->db->update(
+                'modl_meta_content',
+                array('language' => 'en')
+                );
+
+        }
+
+
         return TRUE;
     }
-    
+
 }
 
-/* End of file upd.modl_meta.php */ 
-/* Location: ./system/expressionengine/third_party/modl_meta/upd.modl_meta.php */ 
+/* End of file upd.modl_meta.php */
+/* Location: ./system/expressionengine/third_party/modl_meta/upd.modl_meta.php */
