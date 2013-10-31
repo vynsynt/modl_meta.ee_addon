@@ -12,7 +12,7 @@
  
 class Modl_meta_upd {
 		
-	var $version        = '1.0.2';
+	var $version        = '1.0.3';
 	var $module_name = "Modl_meta";
 
     /**
@@ -50,12 +50,12 @@ class Modl_meta_upd {
 		
 		// Check for SEO Lite Tables and run conversion
 		
-		if ($this->EE->db->table_exists('exp_seolite_content') AND $this->EE->db->table_exists('exp_seolite_config'))
+		if ($this->EE->db->table_exists('seolite_content') AND $this->EE->db->table_exists('seolite_config'))
 		{
 		   
 		   	// Rename tables
-		   	$this->EE->dbforge->rename_table('exp_seolite_content', 'exp_modl_meta_content');
-		   	$this->EE->dbforge->rename_table('exp_seolite_config', 'exp_modl_meta_config');
+		   	$this->EE->dbforge->rename_table('seolite_content', 'modl_meta_content');
+		   	$this->EE->dbforge->rename_table('seolite_config', 'modl_meta_config');
 		   
 		   	// Rename existing columns tables
 		   	$fields = array(
