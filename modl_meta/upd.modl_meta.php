@@ -223,12 +223,12 @@ class Modl_meta_upd {
 				'default_fb_admin' => array(
 					'type' => 'varchar',
 					'constraint' => '1024',
-					'null' => FALSE
+					'null' => TRUE
 					),
 				'og_fb_admin' => array(
 					'type' => 'varchar',
 					'constraint' => '1024',
-					'null' => FALSE
+					'null' => TRUE
 					),		
 			);
 			
