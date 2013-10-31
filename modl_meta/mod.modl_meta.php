@@ -13,16 +13,16 @@
 class Modl_meta {
 
 	var $return_data;
-	
+
 	public function Modl_meta() // backwards compatible __construct() won't work
-	{		
+	{
         $this->EE =& get_instance(); // Make a local reference to the ExpressionEngine super object
 		$this->EE->load->library('typography');
 		$this->EE->typography->initialize();
-			
+
         $entry_id = $this->get_param('entry_id');
         $site_id = $this->get_param('site_id', $this->EE->config->item('site_id'));
-	
+
         $use_last_segment = ($this->get_param('use_last_segment') == 'yes' || $this->get_param('use_last_segment') == 'y');
         $tag_prefix = $this->get_param('tag_prefix');
         $url_title = $this->get_param('url_title');
@@ -37,14 +37,16 @@ class Modl_meta {
         $ignore_last_segments = $this->get_param('ignore_last_segments', FALSE);
         $category_url_title = $this->get_param('category_url_title');
         $canonical_url = $this->get_canonical_url($ignore_last_segments);
-        
+
+        $use_language = $this->get_param('language', 'en');
+
         // MODL Meta Open Graph
         $default_og_title = $this->get_param('default_og_title');
         $default_og_description = $this->get_param('default_og_description');
         $default_og_image = $this->get_param('default_og_image','');
         $default_og_image = $this->EE->TMPL->parse_globals($default_og_image);
         $default_og_type = $this->get_param('default_og_type');
-		
+
         if($use_last_segment)
         {
             $url_title = $this->get_url_title_from_segment($ignore_last_segments);
@@ -66,7 +68,7 @@ class Modl_meta {
                     $tag_prefix.'title' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->cat_name, $default_title), ENT_QUOTES), // use SEO title over original if it exists, then original, then default_title from parameter
                     $tag_prefix.'meta_keywords' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->default_keywords, $default_keywords), ENT_QUOTES),
                     $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->cat_description, $modl_meta_entry->default_description, $default_description), ENT_QUOTES),
-                    
+
                     // MODL Meta Open Graph
                     $tag_prefix.'meta_og_title' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->cat_name, $default_og_title), ENT_QUOTES),
                     $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->default_og_description, $default_og_description, $modl_meta_entry->default_og_description), ENT_QUOTES),
@@ -112,6 +114,7 @@ class Modl_meta {
             {
                 $where['channel_titles.entry_id'] = $entry_id;
             }
+            $where['modl_meta_content.language'] = $use_language;
             $this->EE->db->where($where);
             $this->EE->db->join('modl_meta_config', 'modl_meta_config.site_id = channel_titles.site_id');
             $this->EE->db->join('modl_meta_content', 'modl_meta_content.entry_id = channel_titles.entry_id', 'left');
@@ -138,7 +141,7 @@ class Modl_meta {
         }
 
         if(!$got_values)
-        {           
+        {
             // no specific entry lookup, but we still want the config
             $q = $this->EE->db->get_where('modl_meta_config', array('modl_meta_config.site_id' => $site_id));
             $modl_meta_entry = $q->row();
@@ -189,7 +192,7 @@ class Modl_meta {
          */
         if($title_override)
         {
-            $tagdata = preg_replace("~<title>([^<]*)</title>~",'<title>'.$title_override.'</title>', $tagdata ); 
+            $tagdata = preg_replace("~<title>([^<]*)</title>~",'<title>'.$title_override.'</title>', $tagdata );
         }
 
         $this->return_data = $this->EE->TMPL->parse_variables_row($tagdata, $vars);
@@ -329,11 +332,11 @@ class Modl_meta {
 
 	/**
      * Helper function for getting a parameter
-	 */		 
+	 */
 	private function get_param($key, $default_value = '')
 	{
 		$val = $this->EE->TMPL->fetch_param($key);
-		
+
 		if($val == '') {
 			return $default_value;
 		}
@@ -344,10 +347,10 @@ class Modl_meta {
 	 * Helper funciton for template logging
 	 */
 	private function error_log($msg)
-	{		
-		$this->EE->TMPL->log_item("modl_meta ERROR: ".$msg);		
-	}		
+	{
+		$this->EE->TMPL->log_item("modl_meta ERROR: ".$msg);
+	}
 }
 
-/* End of file mod.modl_meta.php */ 
+/* End of file mod.modl_meta.php */
 /* Location: ./system/expressionengine/third_party/modl_meta/mod.modl_meta.php */

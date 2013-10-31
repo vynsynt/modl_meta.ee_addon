@@ -26,22 +26,38 @@ class Modl_meta_tab {
     {
         $settings = array();
 
-        $title = $keywords = $description = $og_description = $og_image = $og_type = $og_title = '';
+        $this->EE->cp->load_package_js('tab');
+
         $languages = array();
+        $content = array('en' => array(
+          'title' => '',
+          'keywords' => '',
+          'description' => '',
+          'og_title' => '',
+          'og_type' => '',
+          'og_description' => '',
+          'og_image' => '',
+          'language' => ''
+        ));
+
         if($entry_id)
         {
             $q = $this->EE->db->get_where('modl_meta_content', array('entry_id' => $entry_id));
             if($q->num_rows())
             {
-                $title = $q->row('title');
-                $keywords = $q->row('keywords');
-                $description = $q->row('description');
-                //MODL Meta Open Graph
-                $og_title = $q->row('og_title');
-                $og_type = $q->row('og_type');
-                $og_description = $q->row('og_description');
-                $og_image = $q->row('og_image');
-                $language = $q->row('language');
+              foreach( $q->result() as $row )
+              {
+                $content[$row->language] = array(
+                  'title' => $row->title,
+                  'keywords' => $row->keywords,
+                  'description' => $row->description,
+                  'og_title' => $row->og_title,
+                  'og_type' => $row->og_type,
+                  'og_description' => $row->og_description,
+                  'og_image' => $row->og_image,
+                  'language' => $row->language
+                );
+              }
             }
         }
 
@@ -69,54 +85,65 @@ class Modl_meta_tab {
            'field_type' => 'select',
         );
 
-        $settings[] = array(
-           'field_id' => 'modl_meta_title',
-           'field_label' => lang('seotitle'),
-           'field_required' => 'n',
-           'field_data' => $title,
-           'field_list_items' => '',
-           'field_fmt' => '',
-           'field_instructions' => lang('title_instructions'),
-           'field_show_fmt' => 'n',
-           'field_fmt_options' => array(),
-           'field_pre_populate' => 'n',
-           'field_text_direction' => 'ltr',
-           'field_type' => 'text',
-           'field_maxl' => '1024'
-        );
+        foreach( $languages as $cc => $label ) {
+          if( array_key_exists($cc, $content) )
+          {
+            $lang_content = $content[$cc];
+          }
+          else
+          {
+            $lang_content = $content['en'];
+          }
 
-        $settings[] = array(
-           'field_id' => 'modl_meta_keywords',
-           'field_label' => lang('seokeywords'),
-           'field_required' => 'n',
-           'field_data' => $keywords,
-           'field_list_items' => '',
-           'field_fmt' => '',
-           'field_instructions' => lang('keywords_instructions'),
-           'field_show_fmt' => 'n',
-           'field_fmt_options' => array(),
-           'field_pre_populate' => 'n',
-           'field_text_direction' => 'ltr',
-            'field_type' => 'textarea',
-            'field_ta_rows'		   => 5,
-        );
+          $settings[] = array(
+             'field_id' => 'modl_meta_title_'.$cc,
+             'field_label' => lang('seotitle').' - '.$label,
+             'field_required' => 'n',
+             'field_data' => $lang_content['title'],
+             'field_list_items' => '',
+             'field_fmt' => '',
+             'field_instructions' => lang('title_instructions'),
+             'field_show_fmt' => 'n',
+             'field_fmt_options' => array(),
+             'field_pre_populate' => 'n',
+             'field_text_direction' => 'ltr',
+             'field_type' => 'text',
+             'field_maxl' => '1024'
+          );
 
-        $settings[] = array(
-           'field_id' => 'modl_meta_description',
-           'field_label' => lang('seodescription'),
-           'field_required' => 'n',
-           'field_data' => $description,
-           'field_list_items' => '',
-           'field_fmt' => '',
-           'field_instructions' => lang('description_instructions'),
-           'field_show_fmt' => 'n',
-           'field_fmt_options' => array(),
-           'field_pre_populate' => 'n',
-           'field_text_direction' => 'ltr',
-           'field_type' => 'textarea',
-           'field_ta_rows'		   => 5,
+          $settings[] = array(
+             'field_id' => 'modl_meta_keywords_'.$cc,
+             'field_label' => lang('seokeywords').' - '.$label,
+             'field_required' => 'n',
+             'field_data' => $lang_content['keywords'],
+             'field_list_items' => '',
+             'field_fmt' => '',
+             'field_instructions' => lang('keywords_instructions'),
+             'field_show_fmt' => 'n',
+             'field_fmt_options' => array(),
+             'field_pre_populate' => 'n',
+             'field_text_direction' => 'ltr',
+              'field_type' => 'textarea',
+              'field_ta_rows'      => 5,
+          );
 
-       );
+          $settings[] = array(
+             'field_id' => 'modl_meta_description_'.$cc,
+             'field_label' => lang('seodescription').' - '.$label,
+             'field_required' => 'n',
+             'field_data' => $lang_content['description'],
+             'field_list_items' => '',
+             'field_fmt' => '',
+             'field_instructions' => lang('description_instructions'),
+             'field_show_fmt' => 'n',
+             'field_fmt_options' => array(),
+             'field_pre_populate' => 'n',
+             'field_text_direction' => 'ltr',
+             'field_type' => 'textarea',
+             'field_ta_rows'       => 5,
+
+         );
+        }
 
        // MODL Meta - Open Graph
 
@@ -124,7 +151,7 @@ class Modl_meta_tab {
            'field_id' => 'modl_meta_og_title',
            'field_label' => lang('og_title'),
            'field_required' => 'n',
-           'field_data' => $og_title,
+           'field_data' => $content['en']['og_title'],
            'field_list_items' => '',
            'field_fmt' => '',
            'field_instructions' => lang('og_title_instructions'),
@@ -140,7 +167,7 @@ class Modl_meta_tab {
            'field_id' => 'modl_meta_og_type',
            'field_label' => lang('og_type'),
            'field_required' => 'n',
-           'field_data' => $og_type,
+           'field_data' => $content['en']['og_type'],
            'field_list_items' => array(
            		'' => '-- Select Type --',
            		'article' => 'Article',
@@ -163,7 +190,7 @@ class Modl_meta_tab {
            'field_id' => 'modl_meta_og_description',
            'field_label' => lang('og_description'),
            'field_required' => 'n',
-           'field_data' => $og_description,
+           'field_data' => $content['en']['og_description'],
            'field_list_items' => '',
            'field_fmt' => '',
            'field_instructions' => lang('og_description_instructions'),
@@ -180,7 +207,7 @@ class Modl_meta_tab {
            'field_id' => 'modl_meta_og_image',
            'field_label' => lang('og_image'),
            'field_required' => 'n',
-           'field_data' => $og_image,
+           'field_data' => $content['en']['og_image'],
            'field_list_items' => '',
            'field_fmt' => '',
            'field_instructions' => lang('og_image_instructions'),
@@ -223,29 +250,49 @@ class Modl_meta_tab {
         } else {
           $og_image = '';
         }
-        $content = array(
-            'site_id' => $site_id,
-            'entry_id' => $entry_id,
-            'title' => $modl_meta_data['modl_meta_title'],
-            'keywords' => $modl_meta_data['modl_meta_keywords'],
-            'description' => $modl_meta_data['modl_meta_description'],
-            'og_title' => $modl_meta_data['modl_meta_og_title'],
-            'og_type' => $modl_meta_data['modl_meta_og_type'],
-            'og_description' => $modl_meta_data['modl_meta_og_description'],
-            'og_image' => $og_image,
-        );
 
+        $site_id = $this->EE->config->item('site_id');
+        $config = $this->EE->db->get_where('modl_meta_config', array('site_id' => $site_id));
 
-        $q = $this->EE->db->get_where('modl_meta_content', array('site_id' => $site_id, 'entry_id' => $entry_id));
-        if($q->num_rows())
+        if($config->num_rows() == 0) // we did not find any config for this site id, so just load any other
         {
-            $this->EE->db->where('entry_id', $entry_id);
-            $this->EE->db->where('site_id', $site_id);
-            $this->EE->db->update('modl_meta_content', $content);
+            $config = $this->EE->db->get_where('modl_meta_config');
         }
-        else
-        {
-            $this->EE->db->insert('modl_meta_content', $content);
+
+        $languages = json_decode($config->row('languages'), true);
+
+        foreach( $languages as $cc => $label ) {
+          $content = array(
+              'site_id' => $site_id,
+              'entry_id' => $entry_id,
+              'title' => $modl_meta_data['modl_meta_title_'.$cc],
+              'keywords' => $modl_meta_data['modl_meta_keywords_'.$cc],
+              'description' => $modl_meta_data['modl_meta_description_'.$cc],
+              'language' => $cc
+          );
+
+          if( $cc == 'en' ) {
+            $content = array_merge($content, array(
+                'og_title' => $modl_meta_data['modl_meta_og_title'],
+                'og_type' => $modl_meta_data['modl_meta_og_type'],
+                'og_description' => $modl_meta_data['modl_meta_og_description'],
+                'og_image' => $og_image,
+            ));
+          }
+
+          $q = $this->EE->db->get_where('modl_meta_content', array('site_id' => $site_id, 'entry_id' => $entry_id, 'language' => $cc));
+          if($q->num_rows())
+          {
+              $this->EE->db->where('entry_id', $entry_id);
+              $this->EE->db->where('site_id', $site_id);
+              $this->EE->db->where('language', $cc);
+              $this->EE->db->update('modl_meta_content', $content);
+          }
+          else
+          {
+              $this->EE->db->insert('modl_meta_content', $content);
+          }
+
         }
     }
 
