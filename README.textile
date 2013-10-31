@@ -87,6 +87,11 @@ h4. Parameters
 
 h2. Change Log
 
+h3. 1.0.3
+
+* Fix FB Admin install error
+* Fix SEO Lite table conversion on install
+
 h3. 1.0.2
 
 * Added a parse_globals call for the default_og_image so it can be used with global variables (esp. {site_url}) when entered on a template.
