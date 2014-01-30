@@ -2,27 +2,27 @@
 
 /**
  *
- * @package		MODL Meta - Based on modl_meta
- * @subpackage	ThirdParty
- * @category	Modules
- * @author 		bjorn (original - SEO Lite 1.3.4)
- * @author		Minds On Design Lab (Extended)
- * @link		https://github.com/Minds-On-Design-Lab/modl_meta.ee_addon - Extended from SEO Lite http://ee.bybjorn.com/modl_meta
+ * @package     MODL Meta - Based on modl_meta
+ * @subpackage  ThirdParty
+ * @category    Modules
+ * @author      bjorn (original - SEO Lite 1.3.4)
+ * @author      Minds On Design Lab (Extended)
+ * @link        https://github.com/Minds-On-Design-Lab/modl_meta.ee_addon - Extended from SEO Lite http://ee.bybjorn.com/modl_meta
  */
 
 class Modl_meta {
 
-	var $return_data;
-	
-	public function Modl_meta() // backwards compatible __construct() won't work
-	{		
+    var $return_data;
+    
+    public function Modl_meta() // backwards compatible __construct() won't work
+    {       
         $this->EE =& get_instance(); // Make a local reference to the ExpressionEngine super object
-		$this->EE->load->library('typography');
-		$this->EE->typography->initialize();
-			
+        $this->EE->load->library('typography');
+        $this->EE->typography->initialize();
+            
         $entry_id = $this->get_param('entry_id');
         $site_id = $this->get_param('site_id', $this->EE->config->item('site_id'));
-	
+    
         $use_last_segment = ($this->get_param('use_last_segment') == 'yes' || $this->get_param('use_last_segment') == 'y');
         $tag_prefix = $this->get_param('tag_prefix');
         $url_title = $this->get_param('url_title');
@@ -44,7 +44,7 @@ class Modl_meta {
         $default_og_image = $this->get_param('default_og_image','');
         $default_og_image = $this->EE->TMPL->parse_globals($default_og_image);
         $default_og_type = $this->get_param('default_og_type');
-		
+        
         if($use_last_segment)
         {
             $url_title = $this->get_url_title_from_segment($ignore_last_segments);
@@ -63,15 +63,15 @@ class Modl_meta {
                 $modl_meta_entry = $q->row();
 
                 $vars = array(
-                    $tag_prefix.'title' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->cat_name, $default_title), ENT_QUOTES), // use SEO title over original if it exists, then original, then default_title from parameter
-                    $tag_prefix.'meta_keywords' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->default_keywords, $default_keywords), ENT_QUOTES),
-                    $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->cat_description, $modl_meta_entry->default_description, $default_description), ENT_QUOTES),
+                    $tag_prefix.'title' => html_entity_decode($this->get_preferred_value($modl_meta_entry->cat_name, $default_title), ENT_QUOTES, 'UTF-8'), // use SEO title over original if it exists, then original, then default_title from parameter
+                    $tag_prefix.'meta_keywords' => html_entity_decode($this->get_preferred_value($modl_meta_entry->default_keywords, $default_keywords), ENT_QUOTES, 'UTF-8'),
+                    $tag_prefix.'meta_description' => html_entity_decode($this->get_preferred_value($modl_meta_entry->cat_description, $modl_meta_entry->default_description, $default_description), ENT_QUOTES, 'UTF-8'),
                     
                     // MODL Meta Open Graph
-                    $tag_prefix.'meta_og_title' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->cat_name, $default_og_title), ENT_QUOTES),
-                    $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->default_og_description, $default_og_description, $modl_meta_entry->default_og_description), ENT_QUOTES),
+                    $tag_prefix.'meta_og_title' => html_entity_decode($this->get_preferred_value($modl_meta_entry->cat_name, $default_og_title), ENT_QUOTES, 'UTF-8'),
+                    $tag_prefix.'meta_og_description' => html_entity_decode($this->get_preferred_value($modl_meta_entry->default_og_description, $default_og_description, $modl_meta_entry->default_og_description), ENT_QUOTES, 'UTF-8'),
                     $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($modl_meta_entry->default_og_image, $default_og_image, $modl_meta_entry->default_og_image), array('parse_images' => TRUE, 'text_format' => 'none', 'auto_links' => 'n')),
-                    $tag_prefix.'meta_og_fb_admin' => htmlspecialchars($modl_meta_entry->og_fb_admin, ENT_QUOTES),
+                    $tag_prefix.'meta_og_fb_admin' => html_entity_decode($modl_meta_entry->og_fb_admin, ENT_QUOTES, 'UTF-8'),
                     // Currently no OG Type for category URL case
                 );
 
@@ -100,7 +100,7 @@ class Modl_meta {
                     }
                 }
             }
-			// Revised for MODL Meta
+            // Revised for MODL Meta
             $this->EE->db->select('channel_titles.entry_id, channel_titles.title as original_title, url_title, modl_meta_content.title as seo_title, default_keywords, default_description, default_title_postfix, keywords, description, modl_meta_config.template, default_og_description, og_description, default_og_image, og_image, og_type, og_title, og_fb_admin');
             $this->EE->db->from('channel_titles');
             $where = array('channel_titles.site_id' => $site_id);
@@ -123,15 +123,15 @@ class Modl_meta {
                 $modl_meta_entry = $q->row();
 
                 $vars = array(
-                    $tag_prefix.'title' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->seo_title, $default_title, $modl_meta_entry->original_title), ENT_QUOTES), // use SEO title over original if it exists, then original, then default_title from parameter
-                    $tag_prefix.'meta_keywords' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->keywords, $default_keywords, $modl_meta_entry->default_keywords), ENT_QUOTES),
-                    $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->description, $default_description, $modl_meta_entry->default_description), ENT_QUOTES),
+                    $tag_prefix.'title' => html_entity_decode($this->get_preferred_value($modl_meta_entry->seo_title, $default_title, $modl_meta_entry->original_title), ENT_QUOTES, 'UTF-8'), // use SEO title over original if it exists, then original, then default_title from parameter
+                    $tag_prefix.'meta_keywords' => html_entity_decode($this->get_preferred_value($modl_meta_entry->keywords, $default_keywords, $modl_meta_entry->default_keywords), ENT_QUOTES, 'UTF-8'),
+                    $tag_prefix.'meta_description' => html_entity_decode($this->get_preferred_value($modl_meta_entry->description, $default_description, $modl_meta_entry->default_description), ENT_QUOTES, 'UTF-8'),
                     // MODL Meta Open Graph
-                    $tag_prefix.'meta_og_title' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->og_title, $default_og_title, $modl_meta_entry->original_title), ENT_QUOTES),
-                    $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->og_description, $default_og_description, $modl_meta_entry->default_og_description), ENT_QUOTES),
+                    $tag_prefix.'meta_og_title' => html_entity_decode($this->get_preferred_value($modl_meta_entry->og_title, $default_og_title, $modl_meta_entry->original_title), ENT_QUOTES, 'UTF-8'),
+                    $tag_prefix.'meta_og_description' => html_entity_decode($this->get_preferred_value($modl_meta_entry->og_description, $default_og_description, $modl_meta_entry->default_og_description), ENT_QUOTES, 'UTF-8'),
                     $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($modl_meta_entry->og_image, $default_og_image, $modl_meta_entry->default_og_image), array('parse_images' => TRUE, 'text_format' => 'none', 'auto_links' => 'n')),
-                    $tag_prefix.'meta_og_type' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->og_type, $default_og_type), ENT_QUOTES),
-                    $tag_prefix.'meta_og_fb_admin' => htmlspecialchars($modl_meta_entry->og_fb_admin, ENT_QUOTES),
+                    $tag_prefix.'meta_og_type' => html_entity_decode($this->get_preferred_value($modl_meta_entry->og_type, $default_og_type), ENT_QUOTES, 'UTF-8'),
+                    $tag_prefix.'meta_og_fb_admin' => html_entity_decode($modl_meta_entry->og_fb_admin, ENT_QUOTES, 'UTF-8'),
                 );
                 $got_values = TRUE;
             }
@@ -144,15 +144,15 @@ class Modl_meta {
             $modl_meta_entry = $q->row();
 
             $vars = array(
-                $tag_prefix.'title' => htmlspecialchars($default_title, ENT_QUOTES),
-                $tag_prefix.'meta_keywords' => htmlspecialchars($this->get_preferred_value($default_keywords ,$modl_meta_entry->default_keywords), ENT_QUOTES) ,
-                $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($default_description, $modl_meta_entry->default_description), ENT_QUOTES),
+                $tag_prefix.'title' => html_entity_decode($default_title, ENT_QUOTES, 'UTF-8'),
+                $tag_prefix.'meta_keywords' => html_entity_decode($this->get_preferred_value($default_keywords ,$modl_meta_entry->default_keywords), ENT_QUOTES, 'UTF-8') ,
+                $tag_prefix.'meta_description' => html_entity_decode($this->get_preferred_value($default_description, $modl_meta_entry->default_description), ENT_QUOTES, 'UTF-8'),
                 // MODL Meta Open Graph
-                $tag_prefix.'meta_og_title' => htmlspecialchars($this->get_preferred_value($default_og_title, $default_title), ENT_QUOTES), // if no tag og_title use default_title and if neither will be blank
-                $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($default_og_description, $modl_meta_entry->default_og_description), ENT_QUOTES),
+                $tag_prefix.'meta_og_title' => html_entity_decode($this->get_preferred_value($default_og_title, $default_title), ENT_QUOTES, 'UTF-8'), // if no tag og_title use default_title and if neither will be blank
+                $tag_prefix.'meta_og_description' => html_entity_decode($this->get_preferred_value($default_og_description, $modl_meta_entry->default_og_description), ENT_QUOTES, 'UTF-8'),
                 $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($default_og_image, $modl_meta_entry->default_og_image), array('parse_images' => TRUE, 'text_format' => 'none', 'auto_links' => 'n')),
-                $tag_prefix.'meta_og_type' => htmlspecialchars($default_og_type, ENT_QUOTES),
-                $tag_prefix.'meta_og_fb_admin' => htmlspecialchars($modl_meta_entry->og_fb_admin, ENT_QUOTES),
+                $tag_prefix.'meta_og_type' => html_entity_decode($default_og_type, ENT_QUOTES, 'UTF-8'),
+                $tag_prefix.'meta_og_fb_admin' => html_entity_decode($modl_meta_entry->og_fb_admin, ENT_QUOTES, 'UTF-8'),
             );
         }
 
@@ -194,7 +194,7 @@ class Modl_meta {
 
         $this->return_data = $this->EE->TMPL->parse_variables_row($tagdata, $vars);
         return $this->return_data;
-	}
+    }
 
 
     /**
@@ -327,26 +327,26 @@ class Modl_meta {
     }
 
 
-	/**
+    /**
      * Helper function for getting a parameter
-	 */		 
-	private function get_param($key, $default_value = '')
-	{
-		$val = $this->EE->TMPL->fetch_param($key);
-		
-		if($val == '') {
-			return $default_value;
-		}
-		return $val;
-	}
+     */      
+    private function get_param($key, $default_value = '')
+    {
+        $val = $this->EE->TMPL->fetch_param($key);
+        
+        if($val == '') {
+            return $default_value;
+        }
+        return $val;
+    }
 
-	/**
-	 * Helper funciton for template logging
-	 */
-	private function error_log($msg)
-	{		
-		$this->EE->TMPL->log_item("modl_meta ERROR: ".$msg);		
-	}		
+    /**
+     * Helper funciton for template logging
+     */
+    private function error_log($msg)
+    {       
+        $this->EE->TMPL->log_item("modl_meta ERROR: ".$msg);        
+    }       
 }
 
 /* End of file mod.modl_meta.php */ 
