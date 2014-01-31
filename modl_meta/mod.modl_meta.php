@@ -63,12 +63,12 @@ class Modl_meta {
                 $modl_meta_entry = $q->row();
 
                 $vars = array(
-                    $tag_prefix.'title' => $this->clean_title($this->get_preferred_value($modl_meta_entry->cat_name, $default_title)), // use SEO title over original if it exists, then original, then default_title from parameter
+                    $tag_prefix.'title' => $this->get_preferred_value($modl_meta_entry->cat_name, $default_title), // use SEO title over original if it exists, then original, then default_title from parameter
                     $tag_prefix.'meta_keywords' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->default_keywords, $default_keywords), ENT_QUOTES),
                     $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->cat_description, $modl_meta_entry->default_description, $default_description), ENT_QUOTES),
                     
                     // MODL Meta Open Graph
-                    $tag_prefix.'meta_og_title' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->cat_name, $default_og_title), ENT_QUOTES),
+                    $tag_prefix.'meta_og_title' => $this->get_preferred_value($modl_meta_entry->cat_name, $default_og_title),
                     $tag_prefix.'meta_og_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->default_og_description, $default_og_description, $modl_meta_entry->default_og_description), ENT_QUOTES),
                     $tag_prefix.'meta_og_image' => $this->EE->typography->parse_type($this->get_preferred_value($modl_meta_entry->default_og_image, $default_og_image, $modl_meta_entry->default_og_image), array('parse_images' => TRUE, 'text_format' => 'none', 'auto_links' => 'n')),
                     $tag_prefix.'meta_og_fb_admin' => htmlspecialchars($modl_meta_entry->og_fb_admin, ENT_QUOTES),
@@ -123,7 +123,7 @@ class Modl_meta {
                 $modl_meta_entry = $q->row();
 
                 $vars = array(
-                    $tag_prefix.'title' => $this->clean_title($this->get_preferred_value($modl_meta_entry->seo_title, $default_title, $modl_meta_entry->original_title)), // use SEO title over original if it exists, then original, then default_title from parameter
+                    $tag_prefix.'title' => $this->get_preferred_value($modl_meta_entry->seo_title, $default_title, $modl_meta_entry->original_title), // use SEO title over original if it exists, then original, then default_title from parameter
                     $tag_prefix.'meta_keywords' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->keywords, $default_keywords, $modl_meta_entry->default_keywords), ENT_QUOTES),
                     $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($modl_meta_entry->description, $default_description, $modl_meta_entry->default_description), ENT_QUOTES),
                     // MODL Meta Open Graph
@@ -144,7 +144,7 @@ class Modl_meta {
             $modl_meta_entry = $q->row();
 
             $vars = array(
-                $tag_prefix.'title' => $this->clean_title($default_title),
+                $tag_prefix.'title' => $default_title,
                 $tag_prefix.'meta_keywords' => htmlspecialchars($this->get_preferred_value($default_keywords ,$modl_meta_entry->default_keywords), ENT_QUOTES) ,
                 $tag_prefix.'meta_description' => htmlspecialchars($this->get_preferred_value($default_description, $modl_meta_entry->default_description), ENT_QUOTES),
                 // MODL Meta Open Graph
