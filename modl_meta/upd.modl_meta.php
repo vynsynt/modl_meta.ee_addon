@@ -12,7 +12,7 @@
  
 class Modl_meta_upd {
 		
-	var $version        = '1.0.3';
+	var $version        = '1.0.4';
 	var $module_name = "Modl_meta";
 
     /**
