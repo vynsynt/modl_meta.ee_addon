@@ -108,7 +108,8 @@ class Modl_meta_mcp
 		$vars['content_view'] = $content_view;
 		$vars['_base'] = $this->base;
 		$vars['_form_base'] = $this->form_base;
-		$this->EE->cp->set_variable('cp_page_title', lang($lang_key));
+		//$this->EE->cp->set_variable('cp_page_title', lang($lang_key));
+		$this->EE->view->cp_page_title = lang($lang_key);
 		$this->EE->cp->set_breadcrumb($this->base, lang('modl_meta_module_name'));
 
 		return $this->EE->load->view('_wrapper', $vars, TRUE);
